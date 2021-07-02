@@ -1,0 +1,5 @@
+launch.json
+settings.json
+common/__pycache__
+cogs/__pycache__
+config.yaml
