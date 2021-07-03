@@ -12,7 +12,7 @@ def embed(**kwargs):
     thumbnail - boolean to display roleman thumbnail
     footer - Text to put at the bottom of the embed
     """
-    embed=discord.Embed()
+    embed=Embed()
     if ("title" in kwargs.keys()):
         embed.title = kwargs["title"]
     if ("description" in kwargs.keys()):
@@ -28,7 +28,7 @@ def embed(**kwargs):
     elif ("color" in kwargs.keys()):
         embed.color = kwargs["color"] 
     else:
-        embed.colour = discord.Colour.from_rgb(0xb4,0xeb,0xeb)
+        embed.colour = Colour.from_rgb(0xb4,0xeb,0xeb)
     if ("url" in kwargs.keys()):
         embed.url = kwargs["url"]
     if ("thumbnail" in kwargs.keys()):

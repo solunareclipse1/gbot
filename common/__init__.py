@@ -1,2 +1,2 @@
-from . import config,log,embed
+from . import config,log,embedMessage
 

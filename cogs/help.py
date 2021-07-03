@@ -1,5 +1,5 @@
 ## Initialization
-from common import config, log, embed
+from common import config, log, embedMessage
 import discord
 from discord.ext import commands, tasks
 
@@ -12,8 +12,7 @@ class help(commands.Cog):
         {self.bot.command_prefix}help <command>
         """
         self.hidden = False
-        
-    
+
     @commands.command()
     async def help(self, ctx, *args):
         embed=False
@@ -23,7 +22,7 @@ class help(commands.Cog):
             if not (command):
                 pass
             elif (not command.hidden):
-                embed=embed.embed(
+                embed=embedMessage.embed(
                     title=command.qualified_name,
                     description=command.description,
                     sections=[("Usage",command.usage)]
@@ -34,13 +33,13 @@ class help(commands.Cog):
                 cog = self.bot.get_cog(cog)
                 if (not cog.hidden):
                     cogs.append((cog.qualified_name,cog.description))
-            embed=embed.embed(
+            embed=embedMessage.embed(
                 title="List of commands:",
                 sections=cogs,
                 footer=f"Use {self.bot.command_prefix}help <command> to get more specific usage information."
             )
         if not (embed):   
-            embed=embed.embed(
+            embed=embedMessage.embed(
                 title="This command does not exist",
                 description=f"Try {self.bot.command_prefix}help to see a list of available commands."
             )       
