@@ -9,6 +9,13 @@ class muteCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        ## Help stuff
+        self.hidden = False
+        self.description = "Mutes the specified user"
+        self.usage = f"""
+        {config.cfg['options']['prefix']}mute <@user>
+        """
+
     ## Mutes target
     @commands.command()
     @commands.has_guild_permissions(mute_members=True)

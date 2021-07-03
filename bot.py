@@ -14,14 +14,14 @@ class gBot(commands.Bot):
         self.remove_command('help')
 
         ## Load Cogs - Modules in ./cogs directory
-        for file in os.listdir("./cogs"):             # List contents of ./cogs
+        for file in os.listdir("./cogs"):                                     # List contents of ./cogs
             if file.endswith(".py") and not file=="help.py":                  # Find ".py" files
-                name = file[:-3]                      # Trim ".py" from string
-                self.load_extension(f"cogs.{name}")   # Load Cog
+                name = file[:-3]                                              # Trim ".py" from string
+                self.load_extension(f"cogs.{name}")                           # Load Cog
 
     ## Log to console when ready
     async def on_ready(self):
-        self.load_extention(f"cogs.help")
+        self.load_extension(f"cogs.help")
         log.log('--------------------------------')
         log.log('Bot Ready.')
         log.log(f'Logged in as {self.user.name}')
@@ -29,6 +29,6 @@ class gBot(commands.Bot):
         log.log('--------------------------------')
 
 
-## Create instance of nukeBot using config.cfg['discord']['token']
+## Create instance of gBot using config.cfg['discord']['token']
 client = gBot(command_prefix = config.cfg['options']['prefix'], intents=intents)
 client.run(config.cfg['discord']['token'])

@@ -6,6 +6,9 @@ from discord.ext import commands, tasks
 class cogUtilsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+        ## Help stuff
+        self.hidden = True
     
     ## Reload a cog
     @commands.command()

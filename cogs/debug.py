@@ -8,6 +8,9 @@ class debugCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        ## Help stuff
+        self.hidden = True
+
     ## Test latency
     @commands.command()
     async def ping(self, ctx):

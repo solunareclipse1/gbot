@@ -9,6 +9,13 @@ class unmuteCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        ## Help stuff
+        self.hidden = False
+        self.description = "Unmutes the specified user"
+        self.usage = f"""
+        {config.cfg['options']['prefix']}unmute <@user>
+        """
+
     ## Unmutes target
     @commands.command()
     @commands.has_guild_permissions(mute_members=True)

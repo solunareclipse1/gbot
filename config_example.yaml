@@ -13,3 +13,8 @@ options:
     logToFile: False                    # Enable logging  to file
     logFilePath: "path/to/log.txt"      # Log location
 
+# Example configs
+settings:
+  exampleCommand:
+    firstNumber: 3
+    favNumber: 11

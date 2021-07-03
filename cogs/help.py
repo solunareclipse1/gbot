@@ -11,7 +11,7 @@ class help(commands.Cog):
         {self.bot.command_prefix}help
         {self.bot.command_prefix}help <command>
         """
-        self.forbidden = False
+        self.hidden = False
         
     
     @commands.command()
@@ -19,7 +19,7 @@ class help(commands.Cog):
         prefix = self.bot.command_prefix
         if (args) :
             command = self.bot.get_cog(args[0])
-            if (not command.forbidden):
+            if (not command.hidden):
                 usage = command.usage
                 embed=discord.Embed(title=command.qualified_name, description=command.description)
                 embed.add_field(name="Usage",value=command.usage)
@@ -27,7 +27,7 @@ class help(commands.Cog):
             embed=discord.Embed(title="Command list:")
             for cog in self.bot.cogs:
                 get_cog = self.bot.get_cog
-                if (not get_cog(cog).forbidden):
+                if (not get_cog(cog).hidden):
                     embed.add_field(name=common.hr,value=f"**{cog}**: {get_cog(cog).description}",inline=False)
         await ctx.send(embed=embed)
 
