@@ -11,6 +11,7 @@ intents = discord.Intents.default()
 class gBot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.remove_command('help')
 
         ## Load Cogs - Modules in ./cogs directory
         for file in os.listdir("./cogs"):             # List contents of ./cogs
