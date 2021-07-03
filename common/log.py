@@ -7,4 +7,5 @@ def log(event):
         print(f'[{now}]:{event}')
     if config.cfg['options']['logging']['logToFile']:
         with open(config.cfg['options']['logging']['logFilePath'],"a") as logFile:
-            logFile.writeline(f'[{now}]:{event}')
+            logFile.write(f'[{now}]:{event}\n')
+            
