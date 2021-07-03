@@ -1,5 +1,5 @@
 ## Initialization
-import common
+from common import config, log, embed
 import discord
 from discord.ext import commands, tasks
 
@@ -16,20 +16,37 @@ class help(commands.Cog):
     
     @commands.command()
     async def help(self, ctx, *args):
+        embed=False
         prefix = self.bot.command_prefix
         if (args) :
             command = self.bot.get_cog(args[0])
-            if (not command.hidden):
-                usage = command.usage
-                embed=discord.Embed(title=command.qualified_name, description=command.description)
-                embed.add_field(name="Usage",value=command.usage)
+            if not (command):
+                pass
+            elif (not command.hidden):
+                embed=embed.embed(
+                    title=command.qualified_name,
+                    description=command.description,
+                    sections=[("Usage",command.usage)]
+                )
         else:
-            embed=discord.Embed(title="Command list:")
+            cogs = []
             for cog in self.bot.cogs:
-                get_cog = self.bot.get_cog
-                if (not get_cog(cog).hidden):
-                    embed.add_field(name=common.hr,value=f"**{cog}**: {get_cog(cog).description}",inline=False)
+                cog = self.bot.get_cog(cog)
+                if (not cog.hidden):
+                    cogs.append((cog.qualified_name,cog.description))
+            embed=embed.embed(
+                title="List of commands:",
+                sections=cogs,
+                footer=f"Use {self.bot.command_prefix}help <command> to get more specific usage information."
+            )
+        if not (embed):   
+            embed=embed.embed(
+                title="This command does not exist",
+                description=f"Try {self.bot.command_prefix}help to see a list of available commands."
+            )       
         await ctx.send(embed=embed)
+
+
 
 def setup(bot):
     bot.add_cog(help(bot))
