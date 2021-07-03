@@ -14,12 +14,13 @@ class gBot(commands.Bot):
 
         ## Load Cogs - Modules in ./cogs directory
         for file in os.listdir("./cogs"):             # List contents of ./cogs
-            if file.endswith(".py"):                  # Find ".py" files
+            if file.endswith(".py") and not file=="help.py":                  # Find ".py" files
                 name = file[:-3]                      # Trim ".py" from string
                 self.load_extension(f"cogs.{name}")   # Load Cog
 
     ## Log to console when ready
     async def on_ready(self):
+        self.load_extention(f"cogs.help")
         log.log('--------------------------------')
         log.log('Bot Ready.')
         log.log(f'Logged in as {self.user.name}')
