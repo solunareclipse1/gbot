@@ -6,12 +6,14 @@ from discord.ext import commands, tasks
 class help(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
+
+        ## Help stuff
+        self.hidden = False
         self.description = f"Display help about {self.bot.user.name}'s commands"
         self.usage = f"""
         {self.bot.command_prefix}help
         {self.bot.command_prefix}help <command>
         """
-        self.hidden = False
 
     @commands.command()
     async def help(self, ctx, *args):
