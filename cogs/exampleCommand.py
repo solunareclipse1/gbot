@@ -1,6 +1,6 @@
 ## Initialization
 import discord
-from common import config, log
+from common import config, log, embedMessage
 from discord.ext import commands
 
 ## Example cog
@@ -33,7 +33,11 @@ class exampleCommandCog(commands.Cog):
         if ans == self.favNumber:
             await ctx.send(f'Wow, the answer is {self.favNumber}, my favorite number!')
             return
-        await ctx.send(f'The answer is {ans}')
+        embed = embedMessage.embed(
+            title = 'Answer calculated!',
+            description = f'The answer is {ans}'
+        )
+        await ctx.send(embed=embed)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):

@@ -1,6 +1,6 @@
 ## Initialization
 import discord
-from common import config, log
+from common import config, log, embedMessage
 from discord.ext import commands, tasks
 
 ## General utility commands
@@ -25,7 +25,12 @@ class debugCog(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         log.log(error)
-        await ctx.send(f'Something broke: \n{error}')
+        embed = embedMessage.embed(
+            title = 'ERROR',
+            description = f'An error occured whilst trying to run the command: \n{error}',
+            color = embedMessage.errorColor
+        )
+        await ctx.send(embed=embed)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):

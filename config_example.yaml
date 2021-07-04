@@ -12,9 +12,19 @@ options:
     logToConsole: True                  # Enable logging to console
     logToFile: False                    # Enable logging  to file
     logFilePath: "path/to/log.txt"      # Log location
+  embed:
+    color:
+      default:
+        r: 0
+        g: 128
+        b: 0
+      error:
+        r: 128
+        g: 0
+        b: 0
 
 # Example configs
 settings:
   exampleCommand:
-    firstNumber: 3
-    favNumber: 11
+    firstNumber: 89
+    favNumber: 55

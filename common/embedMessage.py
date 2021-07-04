@@ -1,5 +1,10 @@
 from discord import Embed, Colour, Color
+from common import config
 hr='~~- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -~~'
+
+# Default color variables
+defaultColor = Color.from_rgb(**config.cfg["options"]["embed"]["color"]["default"])
+errorColor = Color.from_rgb(**config.cfg["options"]["embed"]["color"]["error"])
 def embed(**kwargs):
     """
     Created an embed from the provided details
@@ -28,7 +33,7 @@ def embed(**kwargs):
     elif ("color" in kwargs.keys()):
         embed.color = kwargs["color"] 
     else:
-        embed.colour = Colour.from_rgb(0xb4,0xeb,0xeb)
+        embed.colour = defaultColor
     if ("url" in kwargs.keys()):
         embed.url = kwargs["url"]
     if ("thumbnail" in kwargs.keys()):
