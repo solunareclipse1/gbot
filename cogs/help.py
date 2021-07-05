@@ -38,13 +38,13 @@ class help(commands.Cog):
                         cogs[cog.category] = []
                     cogs[cog.category].append(f"`{cog.qualified_name}`\n> {cog.description}")
             ## Display list of commands and descriptions
-            embed=lib.embed(
+            embed=embedMessage.embed(
                 title="List of commands:",
                 footer=f"Use {self.bot.command_prefix}help <command> to get more specific usage information."
             )
             for category in cogs.keys():
                 embed.add_field(name=category,value="\n".join(cogs[category]))
-                
+
         if not (embed):   
             embed=embedMessage.embed(
                 title="This command does not exist",
