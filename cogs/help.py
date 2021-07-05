@@ -33,7 +33,7 @@ class help(commands.Cog):
             cogs = {}
             for cog in self.bot.cogs:
                 cog = self.bot.get_cog(cog)
-                if (not cog.forbidden):
+                if (not cog.hidden):
                     if not (cog.category in cogs.keys()):
                         cogs[cog.category] = []
                     cogs[cog.category].append(f"`{cog.qualified_name}`\n> {cog.description}")
