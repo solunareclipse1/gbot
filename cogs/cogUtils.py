@@ -1,6 +1,7 @@
 ## Initialization
 import discord
 from discord.ext import commands, tasks
+from common import embedMessage
 
 ## Cog utility commands
 class cogUtilsCog(commands.Cog):
@@ -18,7 +19,12 @@ class cogUtilsCog(commands.Cog):
             self.bot.reload_extension(f"cogs.{name}")
         except Exception as e:
             return await ctx.send(e)
-        await ctx.send(f'"**{name}**" Cog reloaded')
+        embed = embedMessage.embed(
+            title = 'Reload complete!',
+            description = f'Cog **{name}** was reloaded.',
+            color = embedMessage.defaultColor
+        )
+        await ctx.send(embed=embed)
 
     ## Unload a cog
     @commands.command()
@@ -28,7 +34,12 @@ class cogUtilsCog(commands.Cog):
             self.bot.unload_extension(f"cogs.{name}")
         except Exception as e:
             return await ctx.send(e)
-        await ctx.send(f'"**{name}**" Cog unloaded')
+        embed = embedMessage.embed(
+            title = 'Unload complete!',
+            description = f'Cog **{name}** was unloaded.',
+            color = embedMessage.defaultColor
+        )
+        await ctx.send(embed=embed)
 
     ## Load a new cog
     @commands.command()
@@ -38,7 +49,12 @@ class cogUtilsCog(commands.Cog):
             self.bot.load_extension(f"cogs.{name}")
         except Exception as e:
             return await ctx.send(e)
-        await ctx.send(f'"**{name}**" Cog loaded')
+        embed = embedMessage.embed(
+            title = 'Load complete!',
+            description = f'Cog **{name}** was loaded.',
+            color = embedMessage.defaultColor
+        )
+        await ctx.send(embed=embed)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):

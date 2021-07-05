@@ -9,7 +9,7 @@ class help(commands.Cog):
 
         ## Help stuff
         self.hidden = False
-        self.description = f"Display help about {self.bot.user.name}'s commands"
+        self.description = f"Displays help about {self.bot.user.name}'s commands"
         self.usage = f"""
         {self.bot.command_prefix}help
         {self.bot.command_prefix}help <command>

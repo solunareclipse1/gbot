@@ -11,15 +11,19 @@ class debugCog(commands.Cog):
         ## Help stuff
         self.hidden = True
 
-    ## Test latency
+    ## Debug Command
     @commands.command()
-    async def ping(self, ctx):
-        await ctx.send(f'Ping! Took ~{round (self.bot.latency * 1000)}ms')
-
-    ## Retreive user information
-    @commands.command()
-    async def info(self, ctx):
-        await ctx.send(f'{self.bot.user}')
+    @commands.is_owner()
+    async def debug(self, ctx):
+        embed = embedMessage.embed(
+            title = 'Bot Debug Information',
+            description = f"""
+            **Bot Account:** {self.bot.user.mention} \n
+            **Bot Latency:** {round (self.bot.latency * 1000)}ms
+            """,
+            color = embedMessage.defaultColor
+        )
+        await ctx.send(embed=embed)
 
     ## Relay errors
     @commands.Cog.listener()
