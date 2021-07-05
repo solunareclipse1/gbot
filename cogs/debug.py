@@ -19,9 +19,7 @@ class debugCog(commands.Cog):
             title = 'Bot Debug Information',
             description = f"""
             **Bot Account:** {self.bot.user.mention} \n
-            **Bot Latency:** {round (self.bot.latency * 1000)}ms \n
-            **Servers Joined:** {len(self.bot.guilds)} \n
-            **Connected VC Channels:** {len(self.bot.voice_clients)}
+            **Bot Latency:** {round (self.bot.latency * 1000)}ms
             """,
             color = embedMessage.defaultColor
         )
