@@ -1,5 +1,6 @@
 ## Initialization
 import os
+import re
 import discord
 from common import config, log
 from discord.ext import commands
@@ -14,10 +15,13 @@ class gBot(commands.Bot):
         self.remove_command('help')
 
         ## Load Cogs - Modules in ./cogs directory
-        for file in os.listdir("./cogs"):                                     # List contents of ./cogs
-            if file.endswith(".py") and not file=="help.py":                  # Find ".py" files
-                name = file[:-3]                                              # Trim ".py" from string
-                self.load_extension(f"cogs.{name}")                           # Load Cog
+        for root, subdirs, files in os.walk("./cogs"):
+            if not ("__pycache__" in root):
+                for file in files:
+                    if file.endswith(".py") and not (file == "help.py"):
+                        name = file[:-3]
+                        parent = ".".join(re.findall(r"\w+",root))
+                        self.load_extension(f"{parent}.{name}")
 
     ## Log to console when ready
     async def on_ready(self):
