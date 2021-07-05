@@ -21,14 +21,33 @@ class join(commands.Cog):
     async def join(self, ctx):
         if ctx.author.voice == None:
             embed = embedMessage.embed(
-            title = 'ERROR',
-            description = 'You are not connected to a voice channel.',
-            color = embedMessage.errorColor
+                title = 'ERROR',
+                description = 'You are not connected to a voice channel.',
+                color = embedMessage.errorColor
             )
             await ctx.send(embed=embed)
             return
         joinTarget = ctx.author.voice.channel
-        await ctx.guild.change_voice_state(channel=joinTarget, self_deaf=True)
+        if ctx.voice_client != None:
+            if ctx.author.guild_permissions.move_members == False:
+                embed = embedMessage.embed(
+                    title = 'ERROR',
+                    description = 'You need the Move Members permission to change the bot\'s connected channel.',
+                    color = embedMessage.errorColor
+                )
+                await ctx.send(embed=embed)
+                return
+            await ctx.voice_client.move_to(joinTarget)
+            await ctx.guild.me.edit(deafen=True)
+            embed = embedMessage.embed(
+                title = 'SUCCESS',
+                description = f'Moved to {joinTarget}.',
+                color = embedMessage.defaultColor
+            )
+            await ctx.send(embed=embed)
+            return
+        await joinTarget.connect()
+        await ctx.guild.me.edit(deafen=True)
         embed = embedMessage.embed(
             title = 'SUCCESS',
             description = f'Connected to {joinTarget}.',
