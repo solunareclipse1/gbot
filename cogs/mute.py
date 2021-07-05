@@ -4,7 +4,7 @@ from common import config, log, embedMessage
 from discord.ext import commands, tasks
 from discord.utils import get
 
-## Command class
+## Class setup
 class mute(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

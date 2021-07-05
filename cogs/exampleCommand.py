@@ -3,8 +3,8 @@ import discord
 from common import config, log, embedMessage
 from discord.ext import commands
 
-## Example cog
-class exampleCommandCog(commands.Cog):
+## Class setup
+class badd(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -22,23 +22,39 @@ class exampleCommandCog(commands.Cog):
     ## Command defining
     @commands.command()
     @commands.has_guild_permissions(embed_links=True, attach_files=True)
-    async def add(self, ctx, arg1: int, arg2: int):
+    async def badd(self, ctx, arg1: int, arg2: int):
         if arg1 == 9 and arg2 == 10:
-            await ctx.send('twenny-wan')
+            embed = embedMessage.embed(
+                title = 'whas nahn plus tehn?',
+                description = 'twenny wan',
+                color = embedMessage.defaultColor
+            )
+            await ctx.send(embed=embed)
             return
         if arg1 != self.firstNumber:
-            await ctx.send(f'Sorry, but the first number must be {self.firstNumber}!')
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = f'Sorry, the first number must be {self.firstNumber}!',
+                color = embedMessage.errorColor
+            )
+            await ctx.send(embed=embed)
             return
         ans = arg1 + arg2
         if ans == self.favNumber:
-            await ctx.send(f'Wow, the answer is {self.favNumber}, my favorite number!')
+            embed = embedMessage.embed(
+                title = 'WOW!',
+                description = f'The answer is {self.favNumber}, my favorite number!',
+                color = discord.Color.from_rgb(255, 215, 0)
+            )
+            await ctx.send(embed=embed)
             return
         embed = embedMessage.embed(
-            title = 'Answer calculated!',
-            description = f'The answer is {ans}'
+            title = 'SUCCESS',
+            description = f'The answer is {ans}.',
+            color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
-    bot.add_cog(exampleCommandCog(bot))
+    bot.add_cog(badd(bot))

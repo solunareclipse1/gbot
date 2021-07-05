@@ -4,8 +4,8 @@ from common import config, log, embedMessage
 from discord.ext import commands, tasks
 from discord.utils import get
 
-## Server moderation commands
-class unmuteCog(commands.Cog):
+## Class setup
+class unmute(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -31,4 +31,4 @@ class unmuteCog(commands.Cog):
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
-    bot.add_cog(unmuteCog(bot))
+    bot.add_cog(unmute(bot))
