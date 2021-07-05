@@ -36,7 +36,7 @@ class leave(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        ctx.voice_client.disconnect()
+        await ctx.voice_client.disconnect()
         embed = embedMessage.embed(
             title = 'SUCCESS',
             description = f'Left {currentChannel}.',
