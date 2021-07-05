@@ -29,17 +29,22 @@ class help(commands.Cog):
                     description=command.description,
                     sections=[("Usage",command.usage)]
                 )
-        else:
-            cogs = []
+         else:
+            cogs = {}
             for cog in self.bot.cogs:
                 cog = self.bot.get_cog(cog)
-                if (not cog.hidden):
-                    cogs.append((cog.qualified_name,cog.description))
-            embed=embedMessage.embed(
+                if (not cog.forbidden):
+                    if not (cog.category in cogs.keys()):
+                        cogs[cog.category] = []
+                    cogs[cog.category].append(f"`{cog.qualified_name}`\n> {cog.description}")
+            ## Display list of commands and descriptions
+            embed=lib.embed(
                 title="List of commands:",
-                sections=cogs,
                 footer=f"Use {self.bot.command_prefix}help <command> to get more specific usage information."
             )
+            for category in cogs.keys():
+                embed.add_field(name=category,value="\n".join(cogs[category]))
+                
         if not (embed):   
             embed=embedMessage.embed(
                 title="This command does not exist",
