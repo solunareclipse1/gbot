@@ -44,8 +44,8 @@ class mute(commands.Cog):
         for channel in ctx.guild.channels:
             await channel.set_permissions(target, overwrite=muteOverwrite, reason=f'{target} was muted by {ctx.author}')
         embed = embedMessage.embed(
-            title = 'Success',
-            description = f'{target} has been muted.',
+            title = 'SUCCESS',
+            description = f'{target.mention} has been muted.',
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)

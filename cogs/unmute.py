@@ -1,6 +1,6 @@
 ## Initialization
 import discord
-from common import config, log
+from common import config, log, embedMessage
 from discord.ext import commands, tasks
 from discord.utils import get
 
@@ -22,7 +22,12 @@ class unmuteCog(commands.Cog):
     async def unmute(self, ctx, target: discord.Member):
         for channel in ctx.guild.channels:
             await channel.set_permissions(target, overwrite=None, reason=f'{target} was unmuted by {ctx.author}')
-        await ctx.send(f'{target} has been unmuted.')
+        embed = embedMessage.embed(
+            title = 'SUCCESS',
+            description = f'{target.mention} has been unmuted.',
+            color = embedMessage.defaultColor
+        )
+        await ctx.send(embed=embed)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
