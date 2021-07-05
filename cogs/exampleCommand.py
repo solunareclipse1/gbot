@@ -9,11 +9,11 @@ class badd(commands.Cog):
         self.bot = bot
 
         ## Help stuff
+        self.hidden = False
         self.description = "Adds numbers together but is overly finnicky about it."
         self.usage = f"""
         {config.cfg['options']['prefix']}add <first number> <second number>
         """
-        self.hidden = False
 
         ## Config stuff
         self.firstNumber = config.cfg['settings']['exampleCommand']['firstNumber']
