@@ -39,7 +39,7 @@ class join(commands.Cog):
                 await ctx.send(embed=embed)
                 return
             await ctx.voice_client.move_to(joinTarget)
-            await ctx.guild.me.edit(deafen=True)
+            await ctx.me.edit(deafen=True)
             embed = embedMessage.embed(
                 title = 'SUCCESS',
                 description = f'Moved to {joinTarget}.',
@@ -48,7 +48,7 @@ class join(commands.Cog):
             await ctx.send(embed=embed)
             return
         await joinTarget.connect()
-        await ctx.guild.me.edit(deafen=True)
+        await ctx.me.edit(deafen=True)
         embed = embedMessage.embed(
             title = 'SUCCESS',
             description = f'Connected to {joinTarget}.',

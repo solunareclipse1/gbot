@@ -1,4 +1,5 @@
 ## Initialization
+import asyncio
 import discord
 import youtube_dl
 from discord.ext import commands
@@ -19,10 +20,29 @@ class play(commands.Cog):
         {config.cfg['options']['prefix']}play <"search terms">
         """
 
+        
+
     ## Command defining
     @commands.command()
     async def play(self, ctx, *args):
-        if not ctx.author.voice.channel:
+        if len(args) == 0:
+            if ctx.voice_client != None:
+                if ctx.voice_client.is_paused():
+                    ctx.voice_client.resume()
+                    embed = embedMessage.embed(
+                        title = 'SUCCESS',
+                        description = 'Playback has been resumed.',
+                        color = embedMessage.defaultColor
+                    )
+                    await ctx.send(embed=embed)
+                    return
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = 'You did not specify what I should play!',
+                color = embedMessage.errorColor
+            )
+            return
+        elif not ctx.author.voice.channel:
             embed = embedMessage.embed(
                 title = 'ERROR',
                 description = 'You must be in a voice channel to play media.',
@@ -31,7 +51,7 @@ class play(commands.Cog):
             await ctx.send(embed=embed)
             return
         elif not ctx.me.voice:
-            self.connectedChannel = await ctx.author.voice.channel.connect()
+            self.bot.player.connectedChannel = await ctx.author.voice.channel.connect()
         elif ctx.author.voice.channel != ctx.me.voice.channel:
             embed = embedMessage.embed(
                 title = 'ERROR',
@@ -47,19 +67,50 @@ class play(commands.Cog):
         else:
             media = args[0]
 
+        if not self.bot.player.nowPlaying:
+            embed = embedMessage.embed(
+                title = "Now loading..."
+            )
+            self.bot.player.nowPlaying = await ctx.send(embed=embed)
+        await self.playAudio(media)
+
+    async def playAudio(self,media):
+        channel = self.bot.player.nowPlaying.channel
         ytdl_src = await ytdlSrc.ytdlSrc.from_url(media, loop=self.bot.loop, stream=True)
         try:
-            self.connectedChannel.play(ytdl_src, after=lambda e: print('Player error: %s' % e) if e else None)
+            self.bot.player.connectedChannel.play(ytdl_src, after=self.onFinish)
         except discord.ClientException as er:
             if er.args[0] == 'Already playing audio.':
-                await ctx.send('queued')
+                self.bot.player.queue.append(media)
+                embed = embedMessage.embed(
+                    title = "Queued:",
+                    description = ytdl_src.title
+                )
+                await self.bot.player.nowPlaying.delete()
+                self.bot.player.nowPlaying = await channel.send(embed=embed)
+                
         else:
             embed = embedMessage.embed(
-                title = 'Now playing:',
-                description = ytdl_src.title
+                    title = "Now Playing:",
+                    description = ytdl_src.title
             )
-            await ctx.send(embed=embed)
-        await ctx.guild.me.edit(deafen=True)
+            await self.bot.player.nowPlaying.delete()
+            self.bot.player.nowPlaying = await channel.send(embed=embed)
+        
+
+    def onFinish(self, err):
+        if len(self.bot.player.queue) > 0:
+            coroutine = self.playAudio(self.bot.player.queue.pop(0))
+        else:
+            coroutine = self.bot.player.connectedChannel.disconnect()
+        future = asyncio.run_coroutine_threadsafe(coroutine,self.bot.loop)
+        try:
+            future.result()
+        except:
+            pass
+        
+
+
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
