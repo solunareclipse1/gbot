@@ -25,7 +25,7 @@ class gBot(commands.Bot):
 
     ## Log to console when ready
     async def on_ready(self):
-        self.load_extension(f"cogs.help")
+        self.load_extension(f"cogs.Info.help")
         log.log('--------------------------------')
         log.log('Bot Ready.')
         log.log(f'Logged in as {self.user.name}')

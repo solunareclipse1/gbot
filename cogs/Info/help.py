@@ -1,5 +1,5 @@
 ## Initialization
-from common import config, log, embedMessage
+from common import config, log, embedMessage, category
 import discord
 from discord.ext import commands, tasks
 
@@ -9,6 +9,7 @@ class help(commands.Cog):
 
         ## Help stuff
         self.hidden = False
+        self.category = category.getCategory(self.__module__)
         self.description = f"Displays help about {self.bot.user.name}'s commands"
         self.usage = f"""
         {self.bot.command_prefix}help
@@ -29,7 +30,7 @@ class help(commands.Cog):
                     description=command.description,
                     sections=[("Usage",command.usage)]
                 )
-         else:
+        else:
             cogs = {}
             for cog in self.bot.cogs:
                 cog = self.bot.get_cog(cog)

@@ -2,7 +2,7 @@
 import discord
 import youtube_dl
 from discord.ext import commands
-from common import config, log, embedMessage, ytdlSrc
+from common import config, log, embedMessage, ytdlSrc, category
 
 ## Class setup
 class play(commands.Cog):
@@ -11,6 +11,7 @@ class play(commands.Cog):
 
         ## Help stuff
         self.hidden = False
+        self.category = category.getCategory(self.__module__)
         self.description = 'Plays the specified media in voice chat.'
         self.usage = f"""
         {config.cfg['options']['prefix']}play <link>

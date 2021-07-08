@@ -1,7 +1,7 @@
 ## Initialization
 import discord
 from discord.ext import commands
-from common import config, log, embedMessage
+from common import config, log, embedMessage, category
 
 ## Class setup
 class about(commands.Cog):
@@ -10,6 +10,7 @@ class about(commands.Cog):
 
         ## Help stuff
         self.hidden = False
+        self.category = category.getCategory(self.__module__)
         self.description = f'Shows some information about this bot'
         self.usage = f"""
         {config.cfg['options']['prefix']}about

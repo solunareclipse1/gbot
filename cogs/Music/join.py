@@ -1,6 +1,6 @@
 ## Initialization
 import discord
-from common import config, log, embedMessage
+from common import config, log, embedMessage, category
 from discord.ext import commands
 
 ## Class setup
@@ -10,6 +10,7 @@ class join(commands.Cog):
 
         ## Help stuff
         self.hidden = False
+        self.category = category.getCategory(self.__module__)
         self.description = "Makes the bot join the voice channel you are currently connected to."
         self.usage = f"""
         {config.cfg['options']['prefix']}join

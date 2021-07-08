@@ -1,6 +1,6 @@
 ## Initialization
 import discord
-from common import config, log, embedMessage
+from common import config, log, embedMessage, category
 from discord.ext import commands
 
 ## Class setup
@@ -10,6 +10,7 @@ class badd(commands.Cog):
 
         ## Help stuff
         self.hidden = False
+        self.category = category.getCategory(self.__module__)
         self.description = "Adds numbers together but is overly finnicky about it."
         self.usage = f"""
         {config.cfg['options']['prefix']}add <first number> <second number>

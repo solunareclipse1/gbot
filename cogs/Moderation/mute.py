@@ -1,6 +1,6 @@
 ## Initialization
 import discord
-from common import config, log, embedMessage
+from common import config, log, embedMessage, category
 from discord.ext import commands, tasks
 from discord.utils import get
 
@@ -11,6 +11,7 @@ class mute(commands.Cog):
 
         ## Help stuff
         self.hidden = False
+        self.category = category.getCategory(self.__module__)
         self.description = "Mutes the specified user"
         self.usage = f"""
         {config.cfg['options']['prefix']}mute <@user>
