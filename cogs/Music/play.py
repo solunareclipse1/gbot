@@ -21,7 +21,7 @@ class play(commands.Cog):
 
     ## Command defining
     @commands.command()
-    async def play(self, ctx, media):
+    async def play(self, ctx, *args):
         if not ctx.author.voice.channel:
             embed = embedMessage.embed(
                 title = 'ERROR',
@@ -42,6 +42,13 @@ class play(commands.Cog):
             return
         if not ctx.guild.me.voice:
             self.connectedChannel = await ctx.author.voice.channel.connect()
+            
+        ## If more thqn one word is passed, collapse args into one string
+        if len(args) > 1:
+            media = " ".join(args)
+        else:
+            media = args[0]
+
         ytdl_src = await ytdlSrc.ytdlSrc.from_url(media, loop=self.bot.loop, stream=True)
         try:
             self.connectedChannel.play(ytdl_src, after=lambda e: print('Player error: %s' % e) if e else None)
