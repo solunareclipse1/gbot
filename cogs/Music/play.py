@@ -15,14 +15,23 @@ class play(commands.Cog):
         self.description = 'Plays the specified media in voice chat.'
         self.usage = f"""
         {config.cfg['options']['prefix']}play <link>
+        {config.cfg['options']['prefix']}play <search>
+        {config.cfg['options']['prefix']}play <"search terms">
         """
 
     ## Command defining
     @commands.command()
     async def play(self, ctx, media):
-        mustJoin = False
-        if ctx.guild.me.voice == None:
-            mustJoin = True
+        if not ctx.author.voice.channel:
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = 'You must be in a voice channel to play media.',
+                color = embedMessage.errorColor
+            )
+            await ctx.send(embed=embed)
+            return
+        elif not ctx.guild.me.voice.channel:
+            return
         elif ctx.author.voice.channel != ctx.guild.me.voice.channel:
             embed = embedMessage.embed(
                 title = 'ERROR',
@@ -31,15 +40,20 @@ class play(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        if mustJoin == True:
+        if not ctx.guild.me.voice:
             self.connectedChannel = await ctx.author.voice.channel.connect()
         ytdl_src = await ytdlSrc.ytdlSrc.from_url(media, loop=self.bot.loop, stream=True)
-        self.connectedChannel.play(ytdl_src, after=lambda e: print('Player error: %s' % e) if e else None)
-        embed = embedMessage.embed(
-            title = 'Now playing:',
-            description = ytdl_src.title
-        )
-        await ctx.send(embed=embed)
+        try:
+            self.connectedChannel.play(ytdl_src, after=lambda e: print('Player error: %s' % e) if e else None)
+        except discord.ClientException as er:
+            if er.args[0] == 'Already playing audio.':
+                await ctx.send('queued')
+        else:
+            embed = embedMessage.embed(
+                title = 'Now playing:',
+                description = ytdl_src.title
+            )
+            await ctx.send(embed=embed)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
