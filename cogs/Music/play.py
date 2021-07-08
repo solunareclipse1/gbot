@@ -17,10 +17,7 @@ class play(commands.Cog):
         self.usage = f"""
         {config.cfg['options']['prefix']}play <link>
         {config.cfg['options']['prefix']}play <search>
-        {config.cfg['options']['prefix']}play <"search terms">
         """
-
-        
 
     ## Command defining
     @commands.command()
@@ -60,7 +57,7 @@ class play(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-            
+
         ## If more than one word is passed, collapse args into one string
         if len(args) > 1:
             media = " ".join(args)
@@ -88,7 +85,6 @@ class play(commands.Cog):
                 )
                 await self.bot.player.nowPlaying.delete()
                 self.bot.player.nowPlaying = await channel.send(embed=embed)
-                
         else:
             embed = embedMessage.embed(
                     title = "Now Playing:",
@@ -96,7 +92,6 @@ class play(commands.Cog):
             )
             await self.bot.player.nowPlaying.delete()
             self.bot.player.nowPlaying = await channel.send(embed=embed)
-        
 
     def onFinish(self, err):
         if len(self.bot.player.queue) > 0:

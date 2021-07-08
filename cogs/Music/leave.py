@@ -38,6 +38,7 @@ class leave(commands.Cog):
             await ctx.send(embed=embed)
             return
         await ctx.voice_client.disconnect()
+        self.bot.player.queue = []
         embed = embedMessage.embed(
             title = 'SUCCESS',
             description = f'Left {currentChannel}.',
