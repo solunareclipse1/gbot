@@ -30,9 +30,9 @@ class play(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        elif not ctx.guild.me.voice:
+        elif not ctx.me.voice:
             self.connectedChannel = await ctx.author.voice.channel.connect()
-        elif ctx.author.voice.channel != ctx.guild.me.voice.channel:
+        elif ctx.author.voice.channel != ctx.me.voice.channel:
             embed = embedMessage.embed(
                 title = 'ERROR',
                 description = 'You must be connected to the same voice channel as the bot to play media.',
