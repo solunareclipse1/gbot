@@ -59,6 +59,7 @@ class play(commands.Cog):
                 description = ytdl_src.title
             )
             await ctx.send(embed=embed)
+        await ctx.guild.me.edit(deafen=True)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
