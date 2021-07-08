@@ -33,7 +33,7 @@ class play(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        elif not ctx.guild.me.voice:
+        elif not ctx.me.voice:
             self.bot.player.connectedChannel = await ctx.author.voice.channel.connect()
         elif ctx.author.voice.channel != ctx.guild.me.voice.channel:
             embed = embedMessage.embed(
@@ -44,7 +44,7 @@ class play(commands.Cog):
             await ctx.send(embed=embed)
             return
             
-        ## If more thqn one word is passed, collapse args into one string
+        ## If more than one word is passed, collapse args into one string
         if len(args) > 1:
             media = " ".join(args)
         else:

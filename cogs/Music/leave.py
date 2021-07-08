@@ -20,7 +20,7 @@ class leave(commands.Cog):
     @commands.command()
     @commands.has_guild_permissions(connect=True)
     async def leave(self, ctx):
-        if ctx.guild.me.voice == None:
+        if ctx.me.voice == None:
             embed = embedMessage.embed(
                 title = 'ERROR',
                 description = 'I am not connected to a voice channel!',
@@ -28,7 +28,7 @@ class leave(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        currentChannel = ctx.guild.me.voice.channel
+        currentChannel = ctx.me.voice.channel
         if ctx.author.voice.channel != currentChannel:
             embed = embedMessage.embed(
                 title = 'ERROR',
