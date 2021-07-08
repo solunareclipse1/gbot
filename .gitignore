@@ -2,5 +2,10 @@ launch.json
 settings.json
 common/__pycache__
 cogs/__pycache__
+cogs/backend/__pycache__
+cogs/Info/__pycache__
+cogs/Moderation/__pycache__
+cogs/Music/__pycache__
 cogs/cogTemplate.txt
 config.yaml
+ytdl_test.py
