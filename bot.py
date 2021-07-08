@@ -2,7 +2,7 @@
 import os
 import re
 import discord
-from common import config, log
+from common import config, log, player
 from discord.ext import commands
 
 ## Constants and Config
@@ -23,6 +23,8 @@ class gBot(commands.Bot):
                         parent = ".".join(re.findall(r"\w+",root))
                         self.load_extension(f"{parent}.{name}")
 
+        self.player = player.player()
+
     ## Log to console when ready
     async def on_ready(self):
         self.load_extension(f"cogs.Info.help")
@@ -31,6 +33,7 @@ class gBot(commands.Bot):
         log.log(f'Logged in as {self.user.name}')
         log.log(f'User ID: {self.user.id}')
         log.log('--------------------------------')
+
 
 
 ## Create instance of gBot using config.cfg['discord']['token']
