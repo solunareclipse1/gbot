@@ -30,8 +30,8 @@ class play(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        elif not ctx.guild.me.voice.channel:
-            return
+        elif not ctx.guild.me.voice:
+            self.connectedChannel = await ctx.author.voice.channel.connect()
         elif ctx.author.voice.channel != ctx.guild.me.voice.channel:
             embed = embedMessage.embed(
                 title = 'ERROR',
@@ -40,8 +40,6 @@ class play(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        if not ctx.guild.me.voice:
-            self.connectedChannel = await ctx.author.voice.channel.connect()
             
         ## If more thqn one word is passed, collapse args into one string
         if len(args) > 1:
