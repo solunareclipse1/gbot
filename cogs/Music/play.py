@@ -41,7 +41,7 @@ class play(commands.Cog):
             await ctx.send(embed=embed)
             return
             
-        ## If more thqn one word is passed, collapse args into one string
+        ## If more than one word is passed, collapse args into one string
         if len(args) > 1:
             media = " ".join(args)
         else:
