@@ -78,7 +78,8 @@ class play(commands.Cog):
             self.bot.player.connectedChannel.play(ytdl_src, after=self.onFinish)
         except discord.ClientException as er:
             if er.args[0] == 'Already playing audio.':
-                self.bot.player.queue.append(media)
+                self.bot.player.botQueue.append(media)
+                self.bot.player.queue.append(ytdl_src.title)
                 embed = embedMessage.embed(
                     title = "Queued:",
                     description = ytdl_src.title
@@ -94,8 +95,9 @@ class play(commands.Cog):
             self.bot.player.nowPlaying = await channel.send(embed=embed)
 
     def onFinish(self, err):
-        if len(self.bot.player.queue) > 0:
-            coroutine = self.playAudio(self.bot.player.queue.pop(0))
+        if len(self.bot.player.botQueue) > 0:
+            coroutine = self.playAudio(self.bot.player.botQueue.pop(0))
+            self.bot.player.queue.pop(0)
         else:
             coroutine = self.bot.player.connectedChannel.disconnect()
         future = asyncio.run_coroutine_threadsafe(coroutine,self.bot.loop)

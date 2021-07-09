@@ -11,7 +11,7 @@ class queue(commands.Cog):
         ## Help stuff
         self.hidden = False
         self.category = category.getCategory(self.__module__)
-        self.description = 'Command description'
+        self.description = 'Displays the queue, 10 items per page.'
         self.usage = f"""
         {config.cfg['options']['prefix']}queue <page>
         """
@@ -19,10 +19,18 @@ class queue(commands.Cog):
     ## Command defining
     @commands.command()
     async def queue(self, ctx):
-        q = "\n".join(self.bot.player.queue[:10])
+        if self.bot.player.queue == []:
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = 'There is nothing in the queue!',
+                color = embedMessage.errorColor
+            )
+            await ctx.send(embed=embed)
+            return
+        q = "\n⁍ ".join(self.bot.player.queue[:10])
         embed = embedMessage.embed(
             title = 'Queue',
-            description = q,
+            description = f'⁍ {q}',
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)
