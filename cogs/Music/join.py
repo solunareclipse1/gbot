@@ -17,7 +17,7 @@ class join(commands.Cog):
         """
 
     ## Command defining
-    @commands.command()
+    @commands.command(aliases=['connect'])
     @commands.has_guild_permissions(connect=True)
     async def join(self, ctx):
         if ctx.author.voice == None:
@@ -47,7 +47,7 @@ class join(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        await joinTarget.connect()
+        self.bot.player.connectedChannel = await joinTarget.connect()
         await ctx.me.edit(deafen=True)
         embed = embedMessage.embed(
             title = 'SUCCESS',

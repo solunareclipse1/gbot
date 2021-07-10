@@ -17,7 +17,7 @@ class queue(commands.Cog):
         """
 
     ## Command defining
-    @commands.command()
+    @commands.command(aliases=['q'])
     async def queue(self, ctx, page=1):
         if self.bot.player.queue == []:
             embed = embedMessage.embed(

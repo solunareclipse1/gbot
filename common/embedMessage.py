@@ -38,7 +38,7 @@ def embed(**kwargs):
         embed.url = kwargs["url"]
     if ("thumbnail" in kwargs.keys()):
         if kwargs["thumbnail"]:
-            embed.set_image(url="https://cdn.discordapp.com/avatars/700843606923149352/2e2840d61258ef8a5cc976571cb3851a.png?size=256")
+            embed.set_image(url="https://cdn.discordapp.com/attachments/863527179479416852/863527222085419029/gbot.png")
     if ("footer" in kwargs.keys()):
         embed.set_footer(text=kwargs["footer"])
     return embed

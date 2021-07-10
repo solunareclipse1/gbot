@@ -16,7 +16,7 @@ class help(commands.Cog):
         {self.bot.command_prefix}help <command>
         """
 
-    @commands.command()
+    @commands.command(aliases=['?', 'commands'])
     async def help(self, ctx, *args):
         embed=False
         prefix = self.bot.command_prefix

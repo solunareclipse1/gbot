@@ -12,7 +12,7 @@ class cogUtilsCog(commands.Cog):
         self.hidden = True
     
     ## Reload a cog
-    @commands.command()
+    @commands.command(aliases=['r', 'reloadCog', 'reloadCommand'])
     @commands.is_owner()
     async def reload(self, ctx, *, name: str):
         try:
@@ -27,7 +27,7 @@ class cogUtilsCog(commands.Cog):
         await ctx.send(embed=embed)
 
     ## Unload a cog
-    @commands.command()
+    @commands.command(aliases=['u', 'unloadCog', 'unloadCommand'])
     @commands.is_owner()
     async def unload(self, ctx, *, name: str):
         try:
@@ -42,7 +42,7 @@ class cogUtilsCog(commands.Cog):
         await ctx.send(embed=embed)
 
     ## Load a new cog
-    @commands.command()
+    @commands.command(aliases=['l', 'loadCog', 'loadCommand'])
     @commands.is_owner()
     async def load(self, ctx, *, name: str):
         try:
