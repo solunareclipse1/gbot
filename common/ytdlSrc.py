@@ -36,6 +36,12 @@ class ytdlSrc(discord.PCMVolumeTransformer):
         data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
 
         if 'entries' in data:
+            if self.bot.player.botQueue == []:
+                qLen = len(data['entries'])
+                playNow = data['entries'][0]
+                toQueue = data['entries'][2:qLen]
+                filename = playNow['url'] if stream else ytdl.prepare_filename(data)
+                return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
             # take first item from a playlist
             data = data['entries'][0]
 
