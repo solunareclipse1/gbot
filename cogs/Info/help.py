@@ -16,19 +16,21 @@ class help(commands.Cog):
         {self.bot.command_prefix}help <command>
         """
 
-    @commands.command(aliases=['?', 'commands'])
+    @commands.command(aliases=['commands', '?'])
     async def help(self, ctx, *args):
         embed=False
         prefix = self.bot.command_prefix
         if (args) :
-            command = self.bot.get_cog(args[0])
-            if not (command):
+            cog = self.bot.get_cog(args[0])
+            command = self.bot.get_command(args[0])
+            if not (cog):
                 pass
-            elif (not command.hidden):
+            elif (not cog.hidden):
                 embed=embedMessage.embed(
-                    title=command.qualified_name,
-                    description=command.description,
-                    sections=[("Usage",command.usage)]
+                    title=cog.qualified_name,
+                    description=cog.description,
+                    sections=[("Usage",cog.usage), ("Category",cog.category)],
+                    footer=f'Aliases: {", ".join(command.aliases)}'
                 )
         else:
             cogs = {}
