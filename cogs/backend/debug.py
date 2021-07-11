@@ -31,7 +31,7 @@ class debugCog(commands.Cog):
         log.log(error)
         embed = embedMessage.embed(
             title = 'ERROR',
-            description = f'An error occured whilst trying to run the command: \n{error}',
+            description = f'An error occured whilst trying to run the command: \n**{error}**',
             color = embedMessage.errorColor
         )
         await ctx.send(embed=embed)

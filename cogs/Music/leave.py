@@ -42,7 +42,7 @@ class leave(commands.Cog):
         self.bot.player.queue = []
         embed = embedMessage.embed(
             title = 'SUCCESS',
-            description = f'Left {currentChannel}.',
+            description = f'Left **{currentChannel}**.',
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)

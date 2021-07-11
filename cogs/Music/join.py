@@ -42,7 +42,7 @@ class join(commands.Cog):
             await ctx.me.edit(deafen=True)
             embed = embedMessage.embed(
                 title = 'SUCCESS',
-                description = f'Moved to {joinTarget}.',
+                description = f'Moved to **{joinTarget}**.',
                 color = embedMessage.defaultColor
             )
             await ctx.send(embed=embed)
@@ -51,7 +51,7 @@ class join(commands.Cog):
         await ctx.me.edit(deafen=True)
         embed = embedMessage.embed(
             title = 'SUCCESS',
-            description = f'Connected to {joinTarget}.',
+            description = f'Connected to **{joinTarget}**.',
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)
