@@ -71,13 +71,16 @@ class play(commands.Cog):
                 title = "Now loading..."
             )
             reply = await ctx.send(embed=embed)
-            self.bot.player.nowPlaying[ctx.guild.id] = reply
+            self.bot.player.nowPlaying[ctx.guild.id] = {
+                "message":reply,
+                "song":None
+                }
             
         await self.playAudio(media,ctx.guild)
 
     async def playAudio(self,media,guild):
         if guild.id in self.bot.player.nowPlaying.keys():
-            channel = self.bot.player.nowPlaying[guild.id].channel
+            channel = self.bot.player.nowPlaying[guild.id]["message"].channel
         ytdl_src = await ytdlSrc.ytdlSrc.from_url(media, loop=self.bot.loop, stream=True)
         try:
             self.bot.player.connectedChannel[guild.id].play(ytdl_src, after=lambda e: self.onFinish(guild))
@@ -93,15 +96,18 @@ class play(commands.Cog):
                     title = "Queued:",
                     description = ytdl_src.title
                 )
-                await self.bot.player.nowPlaying[guild.id].delete()
-                self.bot.player.nowPlaying[guild.id] = await channel.send(embed=embed)
+                await self.bot.player.nowPlaying[guild.id]["message"].delete()
+                self.bot.player.nowPlaying[guild.id]["message"] = await channel.send(embed=embed)
         else:
             embed = embedMessage.embed(
                     title = "Now Playing:",
                     description = ytdl_src.title
             )
-            await self.bot.player.nowPlaying[guild.id].delete()
-            self.bot.player.nowPlaying[guild.id] = await channel.send(embed=embed)
+            await self.bot.player.nowPlaying[guild.id]["message"].delete()
+            self.bot.player.nowPlaying[guild.id] = {
+                "message":await channel.send(embed=embed),
+                "song":ytdl_src.title
+            }
 
     def onFinish(self, guild):
         if len(self.bot.player.queue[guild.id]) > 0:

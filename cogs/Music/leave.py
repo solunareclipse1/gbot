@@ -17,7 +17,7 @@ class leave(commands.Cog):
         """
 
     ## Command defining
-    @commands.command(aliases=['fuckoff', 'disconnect'])
+    @commands.command(aliases=['fuckoff', 'disconnect', 'dc'])
     @commands.has_guild_permissions(connect=True)
     async def leave(self, ctx):
         if ctx.me.voice == None:
@@ -41,7 +41,7 @@ class leave(commands.Cog):
         self.bot.player.queue[ctx.guild.id] = []
         embed = embedMessage.embed(
             title = 'SUCCESS',
-            description = f'Left {currentChannel}.',
+            description = f'Left **{currentChannel}**.',
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)
