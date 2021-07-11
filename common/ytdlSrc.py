@@ -45,6 +45,8 @@ class ytdlSrc(discord.PCMVolumeTransformer):
                 playlistLength = len(data['entries'])
                 q = data['entries'][1:playlistLength]
             p = data['entries'][0]
+        else:
+            p = data
 
         filename = p['url'] if stream else ytdl.prepare_filename(data)
         return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data, playNow=p, toQueue=q)
