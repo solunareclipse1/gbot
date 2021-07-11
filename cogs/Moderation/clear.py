@@ -1,6 +1,5 @@
 ## Initialization
 import discord
-import asyncio
 from discord.ext import commands
 from common import config, log, embedMessage, category
 
@@ -21,11 +20,13 @@ class clear(commands.Cog):
     @commands.command(aliases=['clean', 'delete', 'del', 'cls', 'remove', 'rem', 'd'])
     @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, amount=1):
+        delCount = -1
         async for message in ctx.channel.history(limit=amount + 1):
             await message.delete()
+            delCount = delCount + 1
         embed = embedMessage.embed(
             title = 'SUCCESS',
-            description = f'Deleted **{amount}** messages.',
+            description = f'Deleted **{delCount}** messages.',
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed, delete_after=3.0)
