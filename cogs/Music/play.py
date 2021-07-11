@@ -20,7 +20,7 @@ class play(commands.Cog):
         """
 
     ## Command defining
-    @commands.command()
+    @commands.command(aliases=['p'])
     async def play(self, ctx, *args):
         if len(args) == 0:
             if ctx.voice_client != None:
