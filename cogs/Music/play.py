@@ -19,6 +19,9 @@ class play(commands.Cog):
         {config.cfg['options']['prefix']}play <search>
         """
 
+        self.mustJoin = False
+        self.joinTarget = None
+
     ## Command defining
     @commands.command(aliases=['p'])
     async def play(self, ctx, *args):
@@ -48,8 +51,8 @@ class play(commands.Cog):
             await ctx.send(embed=embed)
             return
         elif not ctx.me.voice:
-            voiceClient = await ctx.author.voice.channel.connect()
-            self.bot.player.connectedChannel[ctx.guild.id] = voiceClient
+            self.mustJoin = True
+            self.joinTarget = ctx.author.voice.channel
         elif ctx.author.voice.channel != ctx.me.voice.channel:
             embed = embedMessage.embed(
                 title = 'ERROR',
@@ -81,14 +84,22 @@ class play(commands.Cog):
     async def playAudio(self,media,guild):
         if guild.id in self.bot.player.nowPlaying.keys():
             channel = self.bot.player.nowPlaying[guild.id]["message"].channel
-        ytdl_src = await ytdlSrc.ytdlSrc.from_url(media, loop=self.bot.loop, stream=True)
+        ytdl_src = await ytdlSrc.ytdlSrc.from_url(media, self.bot, guild, loop=self.bot.loop, stream=True)
+        try:
+            voiceClient = await self.joinTarget.connect()
+            self.bot.player.connectedChannel[guild.id] = voiceClient
+        except discord.ClientException as er:
+            if er.args[0] == 'Already connected to a voice channel.':
+                pass
+        except AttributeError:
+            pass
         try:
             self.bot.player.connectedChannel[guild.id].play(ytdl_src, after=lambda e: self.onFinish(guild))
         except discord.ClientException as er:
             if er.args[0] == 'Already playing audio.':
-                if not channel.guild.id in self.bot.player.queue.keys():
-                    self.bot.player.queue[channel.guild.id] = []
-                self.bot.player.queue[channel.guild.id].append({
+                if not guild.id in self.bot.player.queue.keys():
+                    self.bot.player.queue[guild.id] = []
+                self.bot.player.queue[guild.id].append({
                     "name":media,
                     "title":ytdl_src.title
                     })
@@ -108,6 +119,20 @@ class play(commands.Cog):
                 "message":await channel.send(embed=embed),
                 "song":ytdl_src.title
             }
+        if ytdl_src.toQueue:
+            if not guild.id in self.bot.player.queue.keys():
+                    self.bot.player.queue[guild.id] = []
+            for song in ytdl_src.toQueue:
+                self.bot.player.queue[guild.id].append({
+                    "name":song['url'],
+                    "title":song['title']
+                })
+            embed = embedMessage.embed(
+                title = "Queued:",
+                description = f"**{len(ytdl_src.toQueue) + 1}** songs from **{ytdl_src.data['title']}**"
+            )
+            await self.bot.player.nowPlaying[guild.id]["message"].delete()
+            self.bot.player.nowPlaying[guild.id]["message"] = await channel.send(embed=embed)
 
     def onFinish(self, guild):
         if len(self.bot.player.queue[guild.id]) > 0:

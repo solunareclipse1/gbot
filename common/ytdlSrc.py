@@ -23,21 +23,28 @@ ffmpeg_options = {
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
 class ytdlSrc(discord.PCMVolumeTransformer):
-    def __init__(self, source, *, data, volume=0.5):
+    def __init__(self, source, *, data, playNow = None, toQueue = None, volume=0.5):
         super().__init__(source, volume)
         self.data = data
 
-        self.title = data.get('title')
+        if not playNow:
+            self.title = data.get('title')
+        else:
+            self.title = playNow.get('title')
+        self.toQueue = toQueue
         self.url = data.get('url')
 
     @classmethod
-    async def from_url(cls, url, *, loop=None, stream=False):
+    async def from_url(cls, url, bot, guild, *, loop=None, stream=False):
         loop = loop or asyncio.get_event_loop()
         data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
 
+        q = None
         if 'entries' in data:
-            # take first item from a playlist
-            data = data['entries'][0]
+            if len(data['entries']) > 1:
+                playlistLength = len(data['entries'])
+                q = data['entries'][1:playlistLength]
+            playNow = data['entries'][0]
 
-        filename = data['url'] if stream else ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+        filename = playNow['url'] if stream else ytdl.prepare_filename(data)
+        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data, playNow=playNow, toQueue=q)
