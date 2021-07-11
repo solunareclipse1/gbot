@@ -32,21 +32,22 @@ class queue(commands.Cog):
         qLength = len(self.bot.player.queue[ctx.guild.id])
         qLower = ((page - 1) * 10) + 1
         qUpper = page * 10
-        if page > 1 and qLower < qLength:
+        pageless = qLength < 11
+        if page > 1 and qLower <= qLength:
             q = ""
-            for song in self.bot.player.queue[ctx.guild.id][qLower:qUpper]:
-                q += "{}\n".format(song["title"])
-        elif page == 1:
+            for song in self.bot.player.queue[ctx.guild.id][qLower-1:qUpper]:
+                q += "{}\n".format(f'⁍ {song["title"]}')
+        elif page == 1 or qLength < 11:
             q = ""
             for song in self.bot.player.queue[ctx.guild.id][:qUpper]:                
-                q += "{}\n".format(song["title"])
+                q += "{}\n".format(f'⁍ {song["title"]}')
         elif qLower > qLength:
             qUpper = int(misc.round_up(qLength, -1))
             qLower = int(qUpper - 9)
             page = int(qUpper / 10)
             q = ""
-            for song in self.bot.player.queue[ctx.guild.id][qLower:qUpper]:
-                q += "{}\n".format(song["title"])
+            for song in self.bot.player.queue[ctx.guild.id][qLower-1:qUpper]:
+                q += "{}\n".format(f'⁍ {song["title"]}')
         elif page < 1:
             embed = embedMessage.embed(
                 title = 'ERROR',
@@ -60,9 +61,10 @@ class queue(commands.Cog):
         embed = embedMessage.embed(
             title = 'Queue',
             description = f'{q}',
-            color = embedMessage.defaultColor,
-            footer = f'Page {page} of {int((misc.round_up(qLength, -1)) / 10)}'
+            color = embedMessage.defaultColor
         )
+        if not pageless:
+            embed.set_footer(text=f'Page {page} of {int((misc.round_up(qLength, -1)) / 10)}')
         await ctx.send(embed=embed)
         return
 
