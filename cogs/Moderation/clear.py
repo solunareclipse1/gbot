@@ -11,7 +11,7 @@ class clear(commands.Cog):
         ## Help stuff
         self.hidden = False
         self.category = category.getCategory(self.__module__)
-        self.description = 'Deletes the specified number of previous messages. Defaults to 1. Can be a little slow because of Discords rate limiting.'
+        self.description = 'Deletes the specified number of previous messages. Defaults to 1. Can be a little slow because of Discord\'s rate limiting.'
         self.usage = f"""
         {config.cfg['options']['prefix']}clear <number of messages>
         """
