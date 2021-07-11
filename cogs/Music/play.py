@@ -80,13 +80,14 @@ class play(commands.Cog):
             channel = self.bot.player.nowPlaying[guild.id].channel
         ytdl_src = await ytdlSrc.ytdlSrc.from_url(media, loop=self.bot.loop, stream=True)
         try:
-            self.bot.player.connectedChannel[guild.id].play(ytdl_src, after=self.onFinish)
+            self.bot.player.connectedChannel[guild.id].play(ytdl_src, after=lambda e: self.onFinish(guild))
         except discord.ClientException as er:
             if er.args[0] == 'Already playing audio.':
-                self.bot.player.queue.append({
+                if not channel.guild.id in self.bot.player.queue.keys():
+                    self.bot.player.queue[channel.guild.id] = []
+                self.bot.player.queue[channel.guild.id].append({
                     "name":media,
-                    "title":ytdl_src.title,
-                    "guild":channel.guild.id
+                    "title":ytdl_src.title
                     })
                 embed = embedMessage.embed(
                     title = "Queued:",
@@ -102,11 +103,11 @@ class play(commands.Cog):
             await self.bot.player.nowPlaying[guild.id].delete()
             self.bot.player.nowPlaying[guild.id] = await channel.send(embed=embed)
 
-    def onFinish(self, err):
-        if len(self.bot.player.queue) > 0:
-            coroutine = self.playAudio(self.bot.player.queue.pop(0)["name"])
+    def onFinish(self, guild):
+        if len(self.bot.player.queue[guild.id]) > 0:
+            coroutine = self.playAudio(self.bot.player.queue[guild.id].pop(0)["name"],guild)
         else:
-            coroutine = self.bot.player.connectedChannel.disconnect()
+            coroutine = self.bot.player.connectedChannel[guild.id].disconnect()
         future = asyncio.run_coroutine_threadsafe(coroutine,self.bot.loop)
         try:
             future.result()
