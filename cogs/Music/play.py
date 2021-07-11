@@ -131,6 +131,7 @@ class play(commands.Cog):
                 title = "Queued:",
                 description = f"**{len(ytdl_src.toQueue) + 1}** songs from **{ytdl_src.data['title']}**"
             )
+            ytdl_src.toQueue = None
             await self.bot.player.nowPlaying[guild.id]["message"].delete()
             self.bot.player.nowPlaying[guild.id]["message"] = await channel.send(embed=embed)
 
@@ -142,7 +143,8 @@ class play(commands.Cog):
         future = asyncio.run_coroutine_threadsafe(coroutine,self.bot.loop)
         try:
             future.result()
-        except:
+        except Exception as er:
+            print(er)
             pass
         
 
