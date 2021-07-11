@@ -84,7 +84,15 @@ class play(commands.Cog):
     async def playAudio(self,media,guild):
         if guild.id in self.bot.player.nowPlaying.keys():
             channel = self.bot.player.nowPlaying[guild.id]["message"].channel
+
+        title = None
+        if type(media) == dict:
+            title = media["title"]
+            media = media["name"]
         ytdl_src = await ytdlSrc.ytdlSrc.from_url(media, self.bot, guild, loop=self.bot.loop, stream=True)
+        if not title:
+            title = ytdl_src.title
+
         try:
             voiceClient = await self.joinTarget.connect()
             self.bot.player.connectedChannel[guild.id] = voiceClient
@@ -93,6 +101,7 @@ class play(commands.Cog):
                 pass
         except AttributeError:
             pass
+
         try:
             self.bot.player.connectedChannel[guild.id].play(ytdl_src, after=lambda e: self.onFinish(guild))
         except discord.ClientException as er:
@@ -101,24 +110,25 @@ class play(commands.Cog):
                     self.bot.player.queue[guild.id] = []
                 self.bot.player.queue[guild.id].append({
                     "name":media,
-                    "title":ytdl_src.title
+                    "title":title
                     })
                 embed = embedMessage.embed(
                     title = "Queued:",
-                    description = ytdl_src.title
+                    description = title
                 )
                 await self.bot.player.nowPlaying[guild.id]["message"].delete()
                 self.bot.player.nowPlaying[guild.id]["message"] = await channel.send(embed=embed)
         else:
             embed = embedMessage.embed(
                     title = "Now Playing:",
-                    description = ytdl_src.title
+                    description = title
             )
             await self.bot.player.nowPlaying[guild.id]["message"].delete()
             self.bot.player.nowPlaying[guild.id] = {
                 "message":await channel.send(embed=embed),
-                "song":ytdl_src.title
+                "song":title
             }
+
         if ytdl_src.toQueue:
             if not guild.id in self.bot.player.queue.keys():
                     self.bot.player.queue[guild.id] = []
@@ -137,7 +147,7 @@ class play(commands.Cog):
 
     def onFinish(self, guild):
         if len(self.bot.player.queue[guild.id]) > 0:
-            coroutine = self.playAudio(self.bot.player.queue[guild.id].pop(0)["name"],guild)
+            coroutine = self.playAudio(self.bot.player.queue[guild.id].pop(0),guild)
         else:
             coroutine = self.bot.player.connectedChannel[guild.id].disconnect()
         future = asyncio.run_coroutine_threadsafe(coroutine,self.bot.loop)
