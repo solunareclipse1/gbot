@@ -56,9 +56,11 @@ class queue(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
+        if "" == q:
+            q = "Nothing Queued."
         embed = embedMessage.embed(
             title = 'Queue',
-            description = f'⁍ {q}',
+            description = f'{q}',
             color = embedMessage.defaultColor,
             footer = f'Page {page} of {int((misc.round_up(qLength, -1)) / 10)}'
         )
