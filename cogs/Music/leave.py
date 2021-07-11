@@ -17,7 +17,7 @@ class leave(commands.Cog):
         """
 
     ## Command defining
-    @commands.command(aliases=['fuckoff', 'disconnect'])
+    @commands.command(aliases=['fuckoff', 'disconnect', 'dc'])
     @commands.has_guild_permissions(connect=True)
     async def leave(self, ctx):
         if ctx.me.voice == None:
