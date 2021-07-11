@@ -19,7 +19,9 @@ class queue(commands.Cog):
     ## Command defining
     @commands.command(aliases=['q'])
     async def queue(self, ctx, page=1):
-        if self.bot.player.queue == []:
+        if not ctx.guild.id in self.bot.player.queue.keys():
+            self.bot.player.queue[ctx.guild.id] = []
+        if self.bot.player.queue[ctx.guild.id] == []:
             embed = embedMessage.embed(
                 title = 'ERROR',
                 description = 'There is nothing in the queue!',
@@ -27,18 +29,24 @@ class queue(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        qLength = len(self.bot.player.queue)
+        qLength = len(self.bot.player.queue[ctx.guild.id])
         qLower = ((page - 1) * 10) + 1
         qUpper = page * 10
         if page > 1 and qLower < qLength:
-            q = "\n⁍ ".join(self.bot.player.queue[qLower:qUpper])
+            q = ""
+            for song in self.bot.player.queue[ctx.guild.id][qLower:qUpper]:
+                q += "{}\n".format(song["title"])
         elif page == 1:
-            q = "\n⁍ ".join(self.bot.player.queue[:qUpper])
+            q = ""
+            for song in self.bot.player.queue[ctx.guild.id][:qUpper]:                
+                q += "{}\n".format(song["title"])
         elif qLower > qLength:
             qUpper = int(misc.round_up(qLength, -1))
             qLower = int(qUpper - 9)
             page = int(qUpper / 10)
-            q = "\n⁍ ".join(self.bot.player.queue[qLower:qLength])
+            q = ""
+            for song in self.bot.player.queue[ctx.guild.id][qLower:qUpper]:
+                q += "{}\n".format(song["title"])
         elif page < 1:
             embed = embedMessage.embed(
                 title = 'ERROR',
@@ -47,9 +55,11 @@ class queue(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
+        if "" == q:
+            q = "Nothing Queued."
         embed = embedMessage.embed(
             title = 'Queue',
-            description = f'⁍ {q}',
+            description = f'{q}',
             color = embedMessage.defaultColor,
             footer = f'Page {page} of {int((misc.round_up(qLength, -1)) / 10)}'
         )
