@@ -20,10 +20,10 @@ class nowPlaying(commands.Cog):
     @commands.command(aliases=['np'])
     async def nowPlaying(self, ctx):
         embed = embedMessage.embed(
-                title="Nothing currently playing",
-                description=f"Use {config.cfg['options']['prefix']}play to play something!",
-                colour=embedMessage.errorColor
-            )
+            title="Nothing currently playing",
+            description=f"Use {config.cfg['options']['prefix']}play to play something!",
+            colour=embedMessage.errorColor
+        )
         if not ctx.guild.id in self.bot.player.nowPlaying.keys():
             self.bot.player.nowPlaying[ctx.guild.id] = {
                 "message":await ctx.send(embed=embed),
@@ -36,11 +36,10 @@ class nowPlaying(commands.Cog):
                 "song":None
             }
             return
-            
         embed = embedMessage.embed(
-                    title = "Now Playing:",
-                    description = self.bot.player.nowPlaying[ctx.guild.id]["song"]
-            )
+            title = "Now Playing:",
+            description = self.bot.player.nowPlaying[ctx.guild.id]["song"]
+        )
         await self.bot.player.nowPlaying[ctx.guild.id]["message"].delete()
         self.bot.player.nowPlaying[ctx.guild.id]["message"] = await ctx.send(embed=embed)
         return
