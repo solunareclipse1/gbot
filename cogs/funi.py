@@ -18,7 +18,7 @@ class funi(commands.Cog):
         if not target:
             calloutPoster = '@Eggfucker1'
             calledOut = '@xX_ShadoW_ThE_EdgehoG_Xx'
-        elif target == self.bot.user:
+        elif target == ctx.me.mention:
             calloutPoster = f'@{self.bot.user.display_name}'
             calledOut = ctx.author.mention
         else:
