@@ -11,16 +11,34 @@ class loop(commands.Cog):
         ## Help stuff
         self.hidden = False
         self.category = category.getCategory(self.__module__)
-        self.description = 'Command description'
+        self.description = 'Loops the queue.'
         self.usage = f"""
-        {config.cfg['options']['prefix']}loop <song/queue>
+        {config.cfg['options']['prefix']}loop
         """
 
     ## Command defining
     @commands.command(aliases=['repeat'])
     async def loop(self, ctx):
-        if self.bot.player.loopQueue:
-            self.bot.player.loopQueue = False
+        if not ctx.voice_client:
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = 'I am not in a voice channel.',
+                color = embedMessage.errorColor
+            )
+            await ctx.send(embed=embed)
+            return
+        elif ctx.author.voice.channel != ctx.me.voice.channel:
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = 'You must be in the same voice channel as me to enable queue looping!',
+                color = embedMessage.errorColor
+            )
+            await ctx.send(embed=embed)
+            return
+        if not ctx.guild.id in self.bot.player.loopQueue.keys():
+            self.bot.player.loopQueue[ctx.guild.id] = False
+        if self.bot.player.loopQueue[ctx.guild.id]:
+            self.bot.player.loopQueue[ctx.guild.id] = False
             if not ctx.guild.id in self.bot.player.queue.keys():
                 self.bot.player.queue[ctx.guild.id] = []
             if len(self.bot.player.queue[ctx.guild.id]) > 0:
@@ -28,13 +46,13 @@ class loop(commands.Cog):
                     self.bot.player.queue[ctx.guild.id].pop()
             embed = embedMessage.embed(
                 title = 'SUCCESS',
-                description = 'Queue loop disabled.',
+                description = 'Queue loop **disabled**.',
                 color = embedMessage.errorColor
             )
             await ctx.send(embed=embed)
             return
         else:
-            self.bot.player.loopQueue = True
+            self.bot.player.loopQueue[ctx.guild.id] = True
             if not ctx.guild.id in self.bot.player.queue.keys():
                 self.bot.player.queue[ctx.guild.id] = []
             if len(self.bot.player.queue[ctx.guild.id]) > 0:
@@ -50,7 +68,7 @@ class loop(commands.Cog):
                         })
             embed = embedMessage.embed(
                 title = 'SUCCESS',
-                description = 'Queue loop enabled.',
+                description = 'Queue loop **enabled**.',
                 color = embedMessage.defaultColor
             )
             await ctx.send(embed=embed)

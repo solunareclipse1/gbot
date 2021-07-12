@@ -38,13 +38,25 @@ class leave(commands.Cog):
             await ctx.send(embed=embed)
             return
         await ctx.voice_client.disconnect()
-        self.bot.player.queue[ctx.guild.id] = []
         embed = embedMessage.embed(
             title = 'SUCCESS',
             description = f'Left **{currentChannel}**.',
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)
+
+    ## Reset queue stuff to default
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, pre, post):
+        if pre.channel != None:
+            if member.id == member.guild.me.id and not post.channel:
+                if not member.guild.id in self.bot.player.queue.keys():
+                    return
+                if not member.guild.id in self.bot.player.loopQueue:
+                    return
+                self.bot.player.queue[member.guild.id] = []
+                self.bot.player.loopQueue[member.guild.id] = False
+                self.bot.player.isLeaving[member.guild.id] = True
 
 ## Allow use of cog class by main bot instance
 def setup(bot):

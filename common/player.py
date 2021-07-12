@@ -4,4 +4,5 @@ class player(object):
         self.queue = {}
         self.connectedChannel = {}
         self.nowPlaying = {}
-        self.loopQueue = False
+        self.loopQueue = {}
+        self.isLeaving = {}
