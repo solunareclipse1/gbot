@@ -77,7 +77,8 @@ class play(commands.Cog):
             reply = await ctx.send(embed=embed)
             self.bot.player.nowPlaying[ctx.guild.id] = {
                 "message":reply,
-                "song":None
+                "song":None,
+                'url':None
                 }
             
         await self.playAudio(media,ctx.guild)
@@ -135,7 +136,8 @@ class play(commands.Cog):
             await self.bot.player.nowPlaying[guild.id]["message"].delete()
             self.bot.player.nowPlaying[guild.id] = {
                 "message":await channel.send(embed=embed),
-                "song":title
+                "song":title,
+                'url':media
             }
 
         if ytdl_src.toQueue:
@@ -159,7 +161,10 @@ class play(commands.Cog):
             coroutine = self.bot.player.connectedChannel[guild.id].disconnect()
             self.bot.player.nowPlaying[guild.id]["song"] = None
         elif len(self.bot.player.queue[guild.id]) > 0:
-            coroutine = self.playAudio(self.bot.player.queue[guild.id].pop(0),guild)
+            song = self.bot.player.queue[guild.id].pop(0)
+            if self.bot.player.loopQueue:
+                self.bot.player.queue[guild.id].append(song)
+            coroutine = self.playAudio(song,guild)
         else:
             coroutine = self.bot.player.connectedChannel[guild.id].disconnect()
             self.bot.player.nowPlaying[guild.id]["song"] = None
