@@ -21,6 +21,10 @@ class loop(commands.Cog):
     async def loop(self, ctx):
         if self.bot.player.loopQueue:
             self.bot.player.loopQueue = False
+            if not ctx.guild.id in self.bot.player.queue.keys():
+                self.bot.player.queue[ctx.guild.id] = []
+            if self.bot.player.queue[ctx.guild.id][-1]['title'] == self.bot.player.nowPlaying[ctx.guild.id]['song']:
+                self.bot.player.queue[ctx.guild.id].pop()
             embed = embedMessage.embed(
                 title = 'SUCCESS',
                 description = 'Queue loop disabled.',
@@ -40,7 +44,7 @@ class loop(commands.Cog):
             embed = embedMessage.embed(
                 title = 'SUCCESS',
                 description = 'Queue loop enabled.',
-                color = embedMessage.errorColor
+                color = embedMessage.defaultColor
             )
             await ctx.send(embed=embed)
             return
