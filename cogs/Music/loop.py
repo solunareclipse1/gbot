@@ -23,8 +23,9 @@ class loop(commands.Cog):
             self.bot.player.loopQueue = False
             if not ctx.guild.id in self.bot.player.queue.keys():
                 self.bot.player.queue[ctx.guild.id] = []
-            if self.bot.player.queue[ctx.guild.id][-1]['title'] == self.bot.player.nowPlaying[ctx.guild.id]['song']:
-                self.bot.player.queue[ctx.guild.id].pop()
+            if len(self.bot.player.queue[ctx.guild.id]) > 0:
+                if self.bot.player.queue[ctx.guild.id][-1]['title'] == self.bot.player.nowPlaying[ctx.guild.id]['song']:
+                    self.bot.player.queue[ctx.guild.id].pop()
             embed = embedMessage.embed(
                 title = 'SUCCESS',
                 description = 'Queue loop disabled.',
@@ -36,11 +37,17 @@ class loop(commands.Cog):
             self.bot.player.loopQueue = True
             if not ctx.guild.id in self.bot.player.queue.keys():
                 self.bot.player.queue[ctx.guild.id] = []
-            if self.bot.player.queue[ctx.guild.id][-1]['title'] != self.bot.player.nowPlaying[ctx.guild.id]['song']:
+            if len(self.bot.player.queue[ctx.guild.id]) > 0:
+                if self.bot.player.queue[ctx.guild.id][-1]['title'] != self.bot.player.nowPlaying[ctx.guild.id]['song']:
+                    self.bot.player.queue[ctx.guild.id].append({
+                            "name":self.bot.player.nowPlaying[ctx.guild.id]['url'],
+                            "title":self.bot.player.nowPlaying[ctx.guild.id]['song']
+                        })
+            else:
                 self.bot.player.queue[ctx.guild.id].append({
-                        "name":self.bot.player.nowPlaying[ctx.guild.id]['url'],
-                        "title":self.bot.player.nowPlaying[ctx.guild.id]['song']
-                    })
+                            "name":self.bot.player.nowPlaying[ctx.guild.id]['url'],
+                            "title":self.bot.player.nowPlaying[ctx.guild.id]['song']
+                        })
             embed = embedMessage.embed(
                 title = 'SUCCESS',
                 description = 'Queue loop enabled.',
