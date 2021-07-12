@@ -40,7 +40,10 @@ class nowPlaying(commands.Cog):
             title = "Now Playing:",
             description = self.bot.player.nowPlaying[ctx.guild.id]["song"]
         )
-        await self.bot.player.nowPlaying[ctx.guild.id]["message"].delete()
+        try:
+            await self.bot.player.nowPlaying[ctx.guild.id]["message"].delete()
+        except discord.NotFound:
+            pass
         self.bot.player.nowPlaying[ctx.guild.id]["message"] = await ctx.send(embed=embed)
         return
 
