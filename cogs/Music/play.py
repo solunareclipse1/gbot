@@ -160,9 +160,14 @@ class play(commands.Cog):
         if not guild.id in self.bot.player.queue.keys():
             coroutine = self.bot.player.connectedChannel[guild.id].disconnect()
             self.bot.player.nowPlaying[guild.id]["song"] = None
-        elif len(self.bot.player.queue[guild.id]) > 0 and not self.bot.player.isLeaving:
+            return
+        if not guild.id in self.bot.player.isLeaving.keys():
+            self.bot.player.isLeaving[guild.id] = False
+        if not guild.id in self.bot.player.loopQueue.keys():
+            self.bot.player.loopQueue[guild.id] = False
+        if len(self.bot.player.queue[guild.id]) > 0 and not self.bot.player.isLeaving[guild.id]:
             song = self.bot.player.queue[guild.id].pop(0)
-            if self.bot.player.loopQueue:
+            if self.bot.player.loopQueue[guild.id]:
                 self.bot.player.queue[guild.id].append(song)
             coroutine = self.playAudio(song,guild)
         else:
