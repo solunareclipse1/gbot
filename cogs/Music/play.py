@@ -71,7 +71,8 @@ class play(commands.Cog):
        
         if not ctx.guild.id in self.bot.player.nowPlaying.keys():
             embed = embedMessage.embed(
-                title = "Now loading..."
+                title = "Loading...",
+                footer = 'Playlist loading can take a while,\nplease be patient.'
             )
             reply = await ctx.send(embed=embed)
             self.bot.player.nowPlaying[ctx.guild.id] = {
@@ -90,9 +91,17 @@ class play(commands.Cog):
             title = media["title"]
             media = media["name"]
         ytdl_src = await ytdlSrc.ytdlSrc.from_url(media, self.bot, guild, loop=self.bot.loop, stream=True)
+        if not ytdl_src:
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = 'Age-restricted video detected. Aborting.',
+                color = embedMessage.errorColor
+            )
+            await self.bot.player.nowPlaying[guild.id]["message"].delete()
+            self.bot.player.nowPlaying[guild.id]["message"] = await channel.send(embed=embed)
+            return
         if not title:
             title = ytdl_src.title
-
         try:
             voiceClient = await self.joinTarget.connect()
             self.bot.player.connectedChannel[guild.id] = voiceClient
