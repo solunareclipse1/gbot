@@ -155,10 +155,14 @@ class play(commands.Cog):
             self.bot.player.nowPlaying[guild.id]["message"] = await channel.send(embed=embed)
 
     def onFinish(self, guild):
-        if len(self.bot.player.queue[guild.id]) > 0:
+        if not guild.id in self.bot.player.queue.keys():
+            coroutine = self.bot.player.connectedChannel[guild.id].disconnect()
+            self.bot.player.nowPlaying[guild.id]["song"] = None
+        elif len(self.bot.player.queue[guild.id]) > 0:
             coroutine = self.playAudio(self.bot.player.queue[guild.id].pop(0),guild)
         else:
             coroutine = self.bot.player.connectedChannel[guild.id].disconnect()
+            self.bot.player.nowPlaying[guild.id]["song"] = None
         future = asyncio.run_coroutine_threadsafe(coroutine,self.bot.loop)
         try:
             future.result()
