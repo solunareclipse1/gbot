@@ -39,7 +39,6 @@ class join(commands.Cog):
                 await ctx.send(embed=embed)
                 return
             await ctx.voice_client.move_to(joinTarget)
-            await ctx.me.edit(deafen=True)
             embed = embedMessage.embed(
                 title = 'SUCCESS',
                 description = f'Moved to **{joinTarget}**.',
@@ -48,7 +47,6 @@ class join(commands.Cog):
             await ctx.send(embed=embed)
             return
         self.bot.player.connectedChannel[ctx.guild.id] = await joinTarget.connect()
-        await ctx.me.edit(deafen=True)
         embed = embedMessage.embed(
             title = 'SUCCESS',
             description = f'Connected to **{joinTarget}**.',

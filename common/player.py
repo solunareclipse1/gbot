@@ -5,4 +5,3 @@ class player(object):
         self.connectedChannel = {}
         self.nowPlaying = {}
         self.loopQueue = {}
-        self.isLeaving = {}

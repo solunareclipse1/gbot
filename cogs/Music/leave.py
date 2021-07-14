@@ -50,13 +50,8 @@ class leave(commands.Cog):
     async def on_voice_state_update(self, member, pre, post):
         if pre.channel != None:
             if member.id == member.guild.me.id and not post.channel:
-                if not member.guild.id in self.bot.player.queue.keys():
-                    return
-                if not member.guild.id in self.bot.player.loopQueue:
-                    return
                 self.bot.player.queue[member.guild.id] = []
                 self.bot.player.loopQueue[member.guild.id] = False
-                self.bot.player.isLeaving[member.guild.id] = True
 
 ## Allow use of cog class by main bot instance
 def setup(bot):

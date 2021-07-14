@@ -157,15 +157,16 @@ class play(commands.Cog):
             self.bot.player.nowPlaying[guild.id]["message"] = await channel.send(embed=embed)
 
     def onFinish(self, guild):
+        if not guild.me.voice:
+            self.bot.player.nowPlaying[guild.id]["song"] = None
+            return
         if not guild.id in self.bot.player.queue.keys():
             coroutine = self.bot.player.connectedChannel[guild.id].disconnect()
             self.bot.player.nowPlaying[guild.id]["song"] = None
             return
-        if not guild.id in self.bot.player.isLeaving.keys():
-            self.bot.player.isLeaving[guild.id] = False
         if not guild.id in self.bot.player.loopQueue.keys():
             self.bot.player.loopQueue[guild.id] = False
-        if len(self.bot.player.queue[guild.id]) > 0 and not self.bot.player.isLeaving[guild.id]:
+        if len(self.bot.player.queue[guild.id]) > 0:
             song = self.bot.player.queue[guild.id].pop(0)
             if self.bot.player.loopQueue[guild.id]:
                 self.bot.player.queue[guild.id].append(song)
