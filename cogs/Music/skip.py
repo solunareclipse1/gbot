@@ -37,7 +37,6 @@ class skip(commands.Cog):
             return
         ctx.voice_client.stop()
         
-        
 ## Allow use of cog class by main bot instance
 def setup(bot):
     bot.add_cog(skip(bot))

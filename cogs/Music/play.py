@@ -180,9 +180,6 @@ class play(commands.Cog):
         except Exception as er:
             print(er)
             pass
-        
-
-
 
 ## Allow use of cog class by main bot instance
 def setup(bot):

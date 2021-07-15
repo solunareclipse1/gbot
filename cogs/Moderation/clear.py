@@ -37,9 +37,6 @@ class clear(commands.Cog):
             )
             await ctx.send(embed=embed)
 
-
-        
-
 ## Allow use of cog class by main bot instance
 def setup(bot):
     bot.add_cog(clear(bot))

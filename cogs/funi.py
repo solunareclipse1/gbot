@@ -31,7 +31,6 @@ class funi(commands.Cog):
         )
         await ctx.send(embed=embed)
         return
-        
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
