@@ -62,8 +62,7 @@ class exampleCog(commands.Cog):
     ## Listener defining
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if msg.guild.me.id != msg.author.id:
-            if msg.content.startswith(self.listenFor):
+        if msg.guild.me.id != msg.author.id and msg.content.startswith(self.listenFor):
                 await msg.reply(self.replyWith)
 
 ## Allow use of cog class by main bot instance
