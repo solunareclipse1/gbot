@@ -11,6 +11,7 @@ class exampleCog(commands.Cog):
         ## Help stuff
         self.hidden = False
         self.category = category.getCategory(self.__module__)
+        self.qualified_name = 'exampleCommand'
         self.description = "Adds numbers together but is overly finnicky about it."
         self.usage = f"""
         {config.cfg['options']['prefix']}add <first number> <second number>
