@@ -4,7 +4,7 @@ from common import config, log, embedMessage, category
 from discord.ext import commands
 
 ## Class setup
-class badd(commands.Cog):
+class exampleCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -23,9 +23,9 @@ class badd(commands.Cog):
         self.replyWith = config.cfg['settings']['exampleCommand']['replyWith']
 
     ## Command defining
-    @commands.command()
+    @commands.command(aliases=['add','badd'])
     @commands.has_guild_permissions(embed_links=True, attach_files=True)
-    async def badd(self, ctx, arg1: int, arg2: int):
+    async def exampleCommand(self, ctx, arg1: int, arg2: int):
         if arg1 == 9 and arg2 == 10:
             embed = embedMessage.embed(
                 title = 'whas nahn plus tehn?',
@@ -67,4 +67,4 @@ class badd(commands.Cog):
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
-    bot.add_cog(badd(bot))
+    bot.add_cog(exampleCog(bot))
