@@ -28,6 +28,9 @@ class debugCog(commands.Cog):
     ## Relay errors
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
+        if ctx.message.content.startswith(self.bot.command_prefix * 2) and ctx.message.content.endswith(self.bot.command_prefix):
+            log.log(f'Detected prefix spam, not sending output through discord. Error logged: \n{error}')
+            return
         log.log(error)
         embed = embedMessage.embed(
             title = 'ERROR',
