@@ -4,17 +4,16 @@ from common import config, log, embedMessage, category
 from discord.ext import commands
 
 ## Class setup
-class exampleCog(commands.Cog):
+class exampleCommand(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
         ## Help stuff
         self.hidden = False
         self.category = category.getCategory(self.__module__)
-        self.qualified_name = 'exampleCommand'
         self.description = "Adds numbers together but is overly finnicky about it."
         self.usage = f"""
-        {config.cfg['options']['prefix']}add <first number> <second number>
+        {config.cfg['options']['prefix']}exampleCommand <first number> <second number>
         """
 
         ## Config stuff
@@ -67,4 +66,4 @@ class exampleCog(commands.Cog):
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
-    bot.add_cog(exampleCog(bot))
+    bot.add_cog(exampleCommand(bot))
