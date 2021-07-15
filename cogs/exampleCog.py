@@ -19,6 +19,8 @@ class badd(commands.Cog):
         ## Config stuff
         self.firstNumber = config.cfg['settings']['exampleCommand']['firstNumber']
         self.favNumber = config.cfg['settings']['exampleCommand']['favNumber']
+        self.listenFor = config.cfg['settings']['exampleCommand']['listenFor']
+        self.replyWith = config.cfg['settings']['exampleCommand']['replyWith']
 
     ## Command defining
     @commands.command()
@@ -55,6 +57,13 @@ class badd(commands.Cog):
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)
+
+    ## Listener defining
+    @commands.Cog.listener()
+    async def on_message(self, msg):
+        if msg.guild.me.id != msg.author.id:
+            if msg.content.startswith('funi'):
+                await msg.reply('fotnit')
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
