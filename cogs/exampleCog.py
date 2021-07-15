@@ -62,8 +62,8 @@ class badd(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, msg):
         if msg.guild.me.id != msg.author.id:
-            if msg.content.startswith('funi'):
-                await msg.reply('fotnit')
+            if msg.content.startswith(self.listenFor):
+                await msg.reply(self.replyWith)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
