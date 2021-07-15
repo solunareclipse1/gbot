@@ -18,10 +18,15 @@ class cogUtilsCog(commands.Cog):
         try:
             self.bot.reload_extension(f"cogs.{name}")
         except Exception as e:
-            return await ctx.send(e)
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = f'**{name}** could not be reloaded: \n```{e}```',
+                color = embedMessage.errorColor
+            )
+            return await ctx.send(embed=embed)
         embed = embedMessage.embed(
-            title = 'Reload complete!',
-            description = f'Cog **{name}** was reloaded.',
+            title = 'SUCCESS',
+            description = f'**{name}** was reloaded.',
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)
@@ -33,10 +38,15 @@ class cogUtilsCog(commands.Cog):
         try:
             self.bot.unload_extension(f"cogs.{name}")
         except Exception as e:
-            return await ctx.send(e)
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = f'**{name}** could not be unloaded: \n```{e}```',
+                color = embedMessage.errorColor
+            )
+            return await ctx.send(embed=embed)
         embed = embedMessage.embed(
-            title = 'Unload complete!',
-            description = f'Cog **{name}** was unloaded.',
+            title = 'SUCCESS',
+            description = f'**{name}** was unloaded.',
             color = embedMessage.defaultColor
         )
         await ctx.send(embed=embed)
@@ -48,7 +58,12 @@ class cogUtilsCog(commands.Cog):
         try:
             self.bot.load_extension(f"cogs.{name}")
         except Exception as e:
-            return await ctx.send(e)
+            embed = embedMessage.embed(
+                title = 'ERROR',
+                description = f'**{name}** could not be loaded: \n```{e}```',
+                color = embedMessage.errorColor
+            )
+            return await ctx.send(embed=embed)
         embed = embedMessage.embed(
             title = 'Load complete!',
             description = f'Cog **{name}** was loaded.',
