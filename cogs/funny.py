@@ -46,7 +46,7 @@ class funi(commands.Cog):
     async def on_message(self, msg):
         if msg.guild.me.id != msg.author.id and msg.content.startswith('*you'):
                 embed = embedMessage.embed(
-                    title = 'Um actually...',
+                    title = 'Um, actually...',
                     color = discord.Color.from_rgb(128, 0, 128),
                     thumbnail = 'https://cdn.discordapp.com/attachments/724979907259662426/859813674465886228/56ggshcgw7571.jpg'
                 )
