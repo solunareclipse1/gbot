@@ -28,5 +28,5 @@ settings:
   exampleCommand:
     firstNumber: 89
     favNumber: 55
-    listenFor: "funi"
-    replyWith: "fotnit"
+    listenFor: "hello there"
+    replyWith: "General Kenobi!"
