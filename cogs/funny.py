@@ -42,6 +42,16 @@ class funi(commands.Cog):
         await asyncio.sleep(10)
         await modFunc.unmute(ctx.author)
 
+    @commands.Cog.listener()
+    async def on_message(self, msg):
+        if msg.guild.me.id != msg.author.id and msg.content.startswith('*you'):
+                embed = embedMessage.embed(
+                    title = 'Um actually...',
+                    color = discord.Color.from_rgb(128, 0, 128),
+                    thumbnail = 'https://cdn.discordapp.com/attachments/724979907259662426/859813674465886228/56ggshcgw7571.jpg'
+                )
+                await msg.reply(embed=embed)
+
 ## Allow use of cog class by main bot instance
 def setup(bot):
     bot.add_cog(funi(bot))
