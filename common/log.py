@@ -2,7 +2,7 @@ import datetime
 from common import config
 
 def log(event):
-    now = datetime.datetime.now().strftime("%y,%m,%d %H:%M:%S")
+    now = datetime.datetime.now().strftime("%y-%m-%d %H:%M:%S")
     if config.cfg['options']['logging']['logToConsole']:
         print(f'[{now}]:{event}')
     if config.cfg['options']['logging']['logToFile']:

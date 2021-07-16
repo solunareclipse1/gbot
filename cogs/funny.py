@@ -1,6 +1,6 @@
 ## Initialization
-import discord, asyncio
 from discord.ext import commands
+import discord, asyncio, random, datetime
 from common import config, embedMessage, category, modFunc
 
 ## Class setup
@@ -17,6 +17,9 @@ class funny(commands.Cog):
     @commands.command(aliases=['announcement', 'tweet', 'callout'])
     async def robotnik(self, ctx, target = None):
         await ctx.message.delete()
+        random.seed()
+        likes = random.randint(0, 69420)
+        rts = random.randint(0, 9001)
         if not target:
             calloutPoster = '@Eggfucker1'
             calledOut = '@xX_ShadoW_ThE_EdgehoG_Xx'
@@ -27,10 +30,12 @@ class funny(commands.Cog):
             calloutPoster = f'@{ctx.author.display_name}'
             calledOut = target
         embed = embedMessage.embed(
-            title = f'twitter.com: {calloutPoster} updated their status',
-            description = f'***I\'ve come to make an announcement: {calledOut}\'s a bitch-ass motherfucker. He pissed on my fucking wife. That\'s right, he took his hedgehog fuckin\' quilly dick out and he pissed on my fucking wife, and he said his dick was \"THIS BIG\", and I said \"That\'s disgusting!\" So I\'m making a callout post on my Twitter dot com. {calledOut}, you got a small dick! It\'s the size of this walnut except WAY smaller! And guess what? Here\'s what my dong looks like! That\'s right, baby! All points, no quills, no pillows, look at that, it looks like two balls and a bong! He fucked my wife, so guess what, I\'m gonna fuck the Earth! That\'s right, this is what you get, my SUPER LASER PISS! Except I\'m not gonna piss on the Earth, I\'m gonna go higher. I\'m pissing on the MOON! HOW DO YOU LIKE THAT, OBAMA? I PISSED ON THE MOON, YOU IDIOT!  You have 23 hours before the piss DRRRROPLLLETS hit the fucking Earth! Now get out of my fucking sight, before I piss on you too!***',
+            title = f'Twitter: {calloutPoster}',
+            description = f'I\'ve come to make an announcement: **{calledOut}\'s** a ***bitch-ass motherfucker***. He pissed on my **fucking** wife. That\'s right, he took his hedgehog fuckin\' quilly dick out and he ***pissed*** **on my** ***fucking*** **wife,** and he said his dick was ***\"THIS BIG\"***, and I said \"That\'s disgusting!\" So I\'m making a callout post on my Twitter dot com. ***{calledOut},*** **you got a** ***small*** **dick!** It\'s the size of this walnut except ***WAY smaller!*** And guess what? ***Here\'s what my dong looks like!*** That\'s right, baby! ***All*** points, ***no*** quills, ***no*** pillows, look at that, it looks like ***two balls*** **and a** ***bong!*** He fucked my wife, so *guess what?* **I\'m gonna fuck the Earth!** That\'s right, this is what you get, my ***SUPER LASER PISS!*** Except I\'m not gonna piss on the *Earth,* I\'m gonna go **higher.** I\'m pissing ***on the MOON!***\n\n***HOW DO YOU LIKE THAT, OBAMA?\nI PISSED ON THE MOON, YOU IDIOT!***\n\nYou have 23 hours before the piss *DRRRROPLLLETS* hit the ***fucking*** *Earth!* Now get out of my fucking sight, before I piss on you too!',
             color = discord.Color.from_rgb(42, 169, 224),
-            thumbnail = 'https://cdn.discordapp.com/attachments/863527179479416852/865673772560416768/small-twitter-bird-icon_151340.png'
+            thumbnail = 'https://cdn.discordapp.com/attachments/863527179479416852/865673772560416768/small-twitter-bird-icon_151340.png',
+            sections = [("Retweets",rts), ("Likes",likes)],
+            footer = f'Twitter • {datetime.datetime.now().strftime("%m/%d/%y")}'
         )
         await ctx.send(embed=embed)
         return
