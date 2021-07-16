@@ -1,6 +1,6 @@
 ## Initialization
 import discord
-from common import config, log, embedMessage, category
+from common import config, log, embedMessage, category, modFunc
 from discord.ext import commands, tasks
 from discord.utils import get
 
@@ -14,13 +14,19 @@ class mute(commands.Cog):
         self.category = category.getCategory(self.__module__)
         self.description = "Mutes the specified user"
         self.usage = f"""
-        {config.cfg['options']['prefix']}mute <@user>
+        {config.cfg['options']['prefix']}mute <@user> <reason>
         """
 
     ## Mutes target
-    @commands.command()
+    @commands.command(aliases=['gag','shutup','stfu'])
     @commands.has_guild_permissions(mute_members=True)
-    async def mute(self, ctx, target: discord.Member):
+    async def mute(self, ctx, target: discord.Member, *args):
+        if len(args) > 1:
+            reason = " ".join(args)
+        elif len(args) == 1:
+            reason = args[0]
+        else:
+            reason = f'Muted by {ctx.author}'
         muteOverwrite = discord.PermissionOverwrite()
         muteOverwrite.add_reactions = False
         muteOverwrite.send_messages = False
@@ -42,8 +48,7 @@ class mute(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-        for channel in ctx.guild.channels:
-            await channel.set_permissions(target, overwrite=muteOverwrite, reason=f'{target} was muted by {ctx.author}')
+        await modFunc.mute(target, reason)
         embed = embedMessage.embed(
             title = 'SUCCESS',
             description = f'{target.mention} has been muted.',

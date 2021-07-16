@@ -1,6 +1,6 @@
 ## Initialization
 import discord
-from common import config, log, embedMessage, category
+from common import config, log, embedMessage, category, modFunc
 from discord.ext import commands, tasks
 from discord.utils import get
 
@@ -14,15 +14,20 @@ class unmute(commands.Cog):
         self.category = category.getCategory(self.__module__)
         self.description = "Unmutes the specified user"
         self.usage = f"""
-        {config.cfg['options']['prefix']}unmute <@user>
+        {config.cfg['options']['prefix']}unmute <@user> <reason>
         """
 
     ## Unmutes target
-    @commands.command()
+    @commands.command(aliases=['ungag'])
     @commands.has_guild_permissions(mute_members=True)
-    async def unmute(self, ctx, target: discord.Member):
-        for channel in ctx.guild.channels:
-            await channel.set_permissions(target, overwrite=None, reason=f'{target} was unmuted by {ctx.author}')
+    async def unmute(self, ctx, target: discord.Member, *args):
+        if len(args) > 1:
+            reason = " ".join(args)
+        elif len(args) == 1:
+            reason = args[0]
+        else:
+            reason = f'Unmuted by {ctx.author}'
+        await modFunc.unmute(target, reason)
         embed = embedMessage.embed(
             title = 'SUCCESS',
             description = f'{target.mention} has been unmuted.',
