@@ -20,8 +20,7 @@ class debugCog(commands.Cog):
             description = f"""
             **Bot Account:** {self.bot.user.mention} \n
             **Bot Latency:** {round (self.bot.latency * 1000)}ms
-            """,
-            color = embedMessage.defaultColor
+            """
         )
         await ctx.send(embed=embed)
 

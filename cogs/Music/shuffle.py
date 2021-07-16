@@ -32,8 +32,7 @@ class shuffle(commands.Cog):
             random.shuffle(guildQueue)
             embed = embedMessage.embed(
                 title = 'SUCCESS',
-                description = 'Queue has been shuffled.',
-                color = embedMessage.defaultColor
+                description = 'Queue has been shuffled.'
             )
             await ctx.send(embed=embed)
             return

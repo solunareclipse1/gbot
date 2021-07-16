@@ -25,8 +25,7 @@ class clear(commands.Cog):
             delCount = await ctx.channel.purge(limit=amount)
             embed = embedMessage.embed(
                 title = 'SUCCESS',
-                description = f'Deleted **{len(delCount)}** message(s).',
-                color = embedMessage.defaultColor
+                description = f'Deleted **{len(delCount)}** message(s).'
             )
             await ctx.send(embed=embed, delete_after=3.0)
         else:

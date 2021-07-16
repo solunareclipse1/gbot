@@ -15,7 +15,8 @@ def embed(**kwargs):
     body - list of entries to be seperated by a <hr>, follows sections
     colour - discord.Colour object to ovveride default
     url - webpage to link to
-    thumbnail - url to image to display
+    thumbnail - url to image to display (small on the side of embed)
+    image - url to image to display (large at bottom of embed)
     footer - Text to put at the bottom of the embed
     """
     embed=Embed()
@@ -38,7 +39,9 @@ def embed(**kwargs):
     if ("url" in kwargs.keys()):
         embed.url = kwargs["url"]
     if ("thumbnail" in kwargs.keys()):
-        embed.set_image(url=kwargs["thumbnail"])
+        embed.set_thumbnail(url=kwargs["thumbnail"])
+    if ("image" in kwargs.keys()):
+        embed.set_image(url=kwargs["image"])
     if ("footer" in kwargs.keys()):
         embed.set_footer(text=kwargs["footer"])
     return embed

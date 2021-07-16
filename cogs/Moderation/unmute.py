@@ -29,8 +29,7 @@ class unmute(commands.Cog):
         await modFunc.unmute(target, reason)
         embed = embedMessage.embed(
             title = 'SUCCESS',
-            description = f'{target.mention} has been unmuted.',
-            color = embedMessage.defaultColor
+            description = f'{target.mention} has been unmuted.'
         )
         await ctx.send(embed=embed)
 

@@ -29,8 +29,7 @@ class exampleCommand(commands.Cog):
         if arg1 == 9 and arg2 == 10:
             embed = embedMessage.embed(
                 title = 'whas nahn plus tehn?',
-                description = 'twenny wan',
-                color = embedMessage.defaultColor
+                description = 'twenny wan'
             )
             await ctx.send(embed=embed)
             return
@@ -53,8 +52,7 @@ class exampleCommand(commands.Cog):
             return
         embed = embedMessage.embed(
             title = 'SUCCESS',
-            description = f'The answer is {ans}.',
-            color = embedMessage.defaultColor
+            description = f'The answer is {ans}.'
         )
         await ctx.send(embed=embed)
 

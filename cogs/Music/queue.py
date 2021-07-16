@@ -60,8 +60,7 @@ class queue(commands.Cog):
             q = "Nothing Queued."
         embed = embedMessage.embed(
             title = 'Queue',
-            description = f'{q}',
-            color = embedMessage.defaultColor
+            description = f'{q}'
         )
         if not pageless:
             embed.set_footer(text=f'Page {page} of {int((misc.round_up(qLength, -1)) / 10)}')

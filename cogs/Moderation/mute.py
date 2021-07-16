@@ -50,8 +50,7 @@ class mute(commands.Cog):
         await modFunc.mute(target, reason)
         embed = embedMessage.embed(
             title = 'SUCCESS',
-            description = f'{target.mention} has been muted.',
-            color = embedMessage.defaultColor
+            description = f'{target.mention} has been muted.'
         )
         await ctx.send(embed=embed)
 

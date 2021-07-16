@@ -46,8 +46,7 @@ class pause(commands.Cog):
         ctx.voice_client.pause()
         embed = embedMessage.embed(
                 title = 'SUCCESS',
-                description = 'Playback has been paused.',
-                color = embedMessage.defaultColor
+                description = 'Playback has been paused.'
             )
         await ctx.send(embed=embed)
         

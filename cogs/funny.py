@@ -4,7 +4,7 @@ from discord.ext import commands
 from common import config, embedMessage, category, modFunc
 
 ## Class setup
-class funi(commands.Cog):
+class funny(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -29,7 +29,8 @@ class funi(commands.Cog):
         embed = embedMessage.embed(
             title = f'twitter.com: {calloutPoster} updated their status',
             description = f'***I\'ve come to make an announcement: {calledOut}\'s a bitch-ass motherfucker. He pissed on my fucking wife. That\'s right, he took his hedgehog fuckin\' quilly dick out and he pissed on my fucking wife, and he said his dick was \"THIS BIG\", and I said \"That\'s disgusting!\" So I\'m making a callout post on my Twitter dot com. {calledOut}, you got a small dick! It\'s the size of this walnut except WAY smaller! And guess what? Here\'s what my dong looks like! That\'s right, baby! All points, no quills, no pillows, look at that, it looks like two balls and a bong! He fucked my wife, so guess what, I\'m gonna fuck the Earth! That\'s right, this is what you get, my SUPER LASER PISS! Except I\'m not gonna piss on the Earth, I\'m gonna go higher. I\'m pissing on the MOON! HOW DO YOU LIKE THAT, OBAMA? I PISSED ON THE MOON, YOU IDIOT!  You have 23 hours before the piss DRRRROPLLLETS hit the fucking Earth! Now get out of my fucking sight, before I piss on you too!***',
-            color = discord.Color.from_rgb(42, 169, 224)
+            color = discord.Color.from_rgb(42, 169, 224),
+            thumbnail = 'https://cdn.discordapp.com/attachments/863527179479416852/865673772560416768/small-twitter-bird-icon_151340.png'
         )
         await ctx.send(embed=embed)
         return
@@ -44,14 +45,14 @@ class funi(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if msg.guild.me.id != msg.author.id and msg.content.startswith('*you'):
+        if msg.guild.me.id != msg.author.id and (msg.content.startswith('*you') or msg.content.startswith('*yro')):
                 embed = embedMessage.embed(
                     title = 'Um, actually...',
                     color = discord.Color.from_rgb(128, 0, 128),
-                    thumbnail = 'https://cdn.discordapp.com/attachments/724979907259662426/859813674465886228/56ggshcgw7571.jpg'
+                    image = 'https://cdn.discordapp.com/attachments/724979907259662426/859813674465886228/56ggshcgw7571.jpg'
                 )
                 await msg.reply(embed=embed)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
-    bot.add_cog(funi(bot))
+    bot.add_cog(funny(bot))

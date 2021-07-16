@@ -31,8 +31,7 @@ class play(commands.Cog):
                     ctx.voice_client.resume()
                     embed = embedMessage.embed(
                         title = 'SUCCESS',
-                        description = 'Playback has been resumed.',
-                        color = embedMessage.defaultColor
+                        description = 'Playback has been resumed.'
                     )
                     await ctx.send(embed=embed)
                     return

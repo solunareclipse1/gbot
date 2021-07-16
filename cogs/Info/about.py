@@ -23,7 +23,6 @@ class about(commands.Cog):
             title = f'About {self.bot.user.name}',
             description = f'{self.bot.user.name} is a Discord bot, written in python, designed to be very modular and configurable. Github link above.',
             url = 'https://github.com/solunareclipse1/gbot',
-            color = embedMessage.defaultColor,
             thumbnail = 'https://cdn.discordapp.com/attachments/863527179479416852/863527222085419029/gbot.png'
         )
         await ctx.send(embed=embed)

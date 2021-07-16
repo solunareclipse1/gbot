@@ -68,8 +68,7 @@ class loop(commands.Cog):
                         })
             embed = embedMessage.embed(
                 title = 'SUCCESS',
-                description = 'Queue loop **enabled**.',
-                color = embedMessage.defaultColor
+                description = 'Queue loop **enabled**.'
             )
             await ctx.send(embed=embed)
             return
