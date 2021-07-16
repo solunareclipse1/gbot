@@ -3,7 +3,7 @@ import asyncio
 import discord
 import youtube_dl
 from discord.ext import commands
-from common import config, log, embedMessage, ytdlSrc, category, player
+from common import config, embedMessage, ytdlSrc, category
 
 ## Class setup
 class play(commands.Cog):

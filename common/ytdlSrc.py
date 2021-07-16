@@ -1,6 +1,6 @@
 import discord
-import youtube_dl
 import asyncio
+import youtube_dl
 
 ytdl_format_options = {
     'format': 'bestaudio/best',

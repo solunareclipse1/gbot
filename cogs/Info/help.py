@@ -1,7 +1,7 @@
 ## Initialization
-from common import config, log, embedMessage, category
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
+from common import log, embedMessage, category
 
 class help(commands.Cog):
     def __init__(self,bot):

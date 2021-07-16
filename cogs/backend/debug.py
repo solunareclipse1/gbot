@@ -1,7 +1,7 @@
 ## Initialization
 import discord
-from common import config, log, embedMessage
-from discord.ext import commands, tasks
+from discord.ext import commands
+from common import log, embedMessage
 
 ## General utility commands
 class debugCog(commands.Cog):

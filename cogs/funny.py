@@ -1,7 +1,7 @@
 ## Initialization
 import discord, asyncio
 from discord.ext import commands
-from common import config, log, embedMessage, category, modFunc
+from common import config, embedMessage, category, modFunc
 
 ## Class setup
 class funi(commands.Cog):

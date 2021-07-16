@@ -1,7 +1,7 @@
 ## Initialization
 import discord
-from common import config, log, embedMessage, category
 from discord.ext import commands
+from common import config, embedMessage, category
 
 ## Class setup
 class exampleCommand(commands.Cog):

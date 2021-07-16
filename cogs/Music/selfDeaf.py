@@ -1,7 +1,6 @@
 ## Initialization
 import discord
 from discord.ext import commands
-from common import config, log, embedMessage, category
 
 ## Class setup
 class selfDeaf(commands.Cog):

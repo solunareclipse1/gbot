@@ -1,7 +1,7 @@
 ## Initialization
 import discord, random
 from discord.ext import commands
-from common import config, log, embedMessage, category
+from common import config, embedMessage, category
 
 ## Class setup
 class shuffle(commands.Cog):

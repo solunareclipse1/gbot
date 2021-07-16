@@ -1,8 +1,7 @@
 ## Initialization
 import discord
-from common import config, log, embedMessage, category, modFunc
 from discord.ext import commands, tasks
-from discord.utils import get
+from common import config, embedMessage, category, modFunc
 
 ## Class setup
 class unmute(commands.Cog):

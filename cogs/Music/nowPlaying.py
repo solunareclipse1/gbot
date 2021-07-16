@@ -1,7 +1,7 @@
 ## Initialization
 import discord
 from discord.ext import commands
-from common import config, log, embedMessage, category, misc
+from common import config, embedMessage, category
 
 ## Class setup
 class nowPlaying(commands.Cog):

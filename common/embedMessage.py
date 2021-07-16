@@ -1,5 +1,6 @@
-from discord import Embed, Colour, Color
 from common import config
+from discord import Embed, Colour, Color
+
 hr='~~- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -~~'
 
 # Default color variables
