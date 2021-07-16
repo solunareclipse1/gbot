@@ -1,7 +1,7 @@
 ## Initialization
-import discord
+import discord, asyncio
 from discord.ext import commands
-from common import config, log, embedMessage, category
+from common import config, log, embedMessage, category, modFunc
 
 ## Class setup
 class funi(commands.Cog):
@@ -11,7 +11,9 @@ class funi(commands.Cog):
         ## Help stuff
         self.hidden = True
 
-    ## Command defining
+    ## This is where I put my joke features / features I made for fun. 
+    ## Uploaded to github because aspects of them might be useful outside of this stupidity. 
+    ## Recommend you remove this file when using the bot yourself.
     @commands.command(aliases=['announcement', 'tweet', 'callout'])
     async def robotnik(self, ctx, target = None):
         await ctx.message.delete()
@@ -31,6 +33,14 @@ class funi(commands.Cog):
         )
         await ctx.send(embed=embed)
         return
+
+    @commands.command(aliases=['hellodiscordbotpleasegivemeamdinpermissionpls'])
+    async def helloserverpluginpleasetogglethirdpresononmepls(self, ctx):
+        await ctx.message.delete()
+        await modFunc.mute(ctx.author)
+        await ctx.send(f'{ctx.author.mention} ***no***')
+        await asyncio.sleep(10)
+        await modFunc.unmute(ctx.author)
 
 ## Allow use of cog class by main bot instance
 def setup(bot):
